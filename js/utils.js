@@ -1,18 +1,5 @@
 // Utilitaires localStorage et autres fonctions globales
 
-function getPlayersFromStorage() {
-    const players = [];
-    let i = 0;
-    let playerName = localStorage.getItem("name" + i);
-    
-    while(playerName) {
-        players.push(playerName);
-        i++;
-        playerName = localStorage.getItem("name" + i);
-    }
-    
-    return players;
-}
 
 function savePlayersToStorage(names) {
     // Nettoyer d'abord

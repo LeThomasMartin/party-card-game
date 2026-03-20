@@ -1,46 +1,62 @@
 // Deck de cartes pour le jeu
 const DECK = [
     // BOISSON
-    { text: "Tout le monde boit !", category: "boisson" },
-    { text: "[PLAYER] choisit qui boit le plus", category: "boisson" },
-    { text: "Les garçons boivent une gorgée", category: "boisson" },
-    { text: "Les filles boivent une gorgée", category: "boisson" },
-    { text: "[PLAYER] doit boire les 3 prochaines gorgées de quelqu'un d'autre", category: "boisson" },
-    { text: "Chacun boit autant de fois qu'il a de lettres dans son prénom", category: "boisson" },
-    { text: "Le plus jeune boit", category: "boisson" },
-    { text: "Le plus vieux boit", category: "boisson" },
-    { text: "[PLAYER] distribue 3 gorgées où il veut", category: "boisson" },
-    
+    { text: "Les gars boivent", category: "boisson" },
+    { text: "Les filles boivent", category: "boisson" },
+    { text: "Drinking race !", category: "boisson" },
+    { text: "Prend un SHOT!", category: "boisson" },
+    { text: "Donne deux gorgées", category: "boisson" },
+    { text: "Ta gauche et ta droite boivent", category: "boisson" },
+    { text: "Celui qui a le moins bu termine sa boisson", category: "boisson" },
+    { text: "finis ta boisson !", category: "boisson" },
+    { text: "Gorgée générale !", category: "boisson" },
+    { text: "Prends une gorgée", category: "boisson" },
+    { text: "Donne 2 shots", category: "boisson" },
+    { text: "Ceux en couple boivent", category: "boisson" },
+
     // PARLER
-    { text: "Dis un compliment sincère à [PLAYER]", category: "parler" },
-    { text: "Raconte ta plus grande peur à voix haute", category: "parler" },
-    { text: "Fais une meilleure imitation que [PLAYER]", category: "parler" },
-    { text: "Crie le secret le plus embarrassant que tu connaisses (inventé)", category: "parler" },
-    { text: "Parle avec un accent jusqu'à la prochaine carte", category: "parler" },
-    { text: "[PLAYER] pose une question à qui il veut", category: "parler" },
+    { text: "Quel est le truc le plus BDSM que tu as fait ?", category: "parler" },
+    { text: "Raconte ta pire annectode de sexe", category: "parler" },
+    { text: "Selon toi... qui est le moins bien habillé dans la pièce ?", category: "parler" },
+    { text: "Si tu devais changer de vie avec une personne dans la piece ce serait qui ?", category: "parler" },
+    { text: "Excepté ton partenaire avec qui sortirais-tu dans la pièce ?", category: "parler" },
+    { text: "Quel est ton plus grand fantasme ?", category: "parler" },
+    { text: "Avec qui voudrais-tu le moins être en couple dans la pièce ?", category: "parler" },
+    { text: "Pose la question de ton choix à la personnne de ton choix", category: "parler" },
+    { text: "Qui appellerais tu dans la pièce pour t'aider à cacher un corps ?", category: "parler" },
+    { text: "Quelle est ta pire perte d'argent ?", category: "parler" },
+    { text: "À quand remonte ton dernier orgasme ?", category: "parler" },
     { text: "Décris ton meilleur souvenir en 30 secondes", category: "parler" },
     
     // DÉFI
-    { text: "Fais 5 pompes", category: "défi" },
-    { text: "Danse comme si personne ne regardait pendant 15 secondes", category: "défi" },
-    { text: "[PLAYER] et [PLAYER] se battent en air guitar", category: "défi" },
-    { text: "Fais un défi d'imitation avec [PLAYER]", category: "défi" },
-    { text: "Lance un objet et attrape-le 3 fois sans le casser", category: "défi" },
-    { text: "Fais reculer tout le monde en chantant très fort", category: "défi" },
-    { text: "Tiens sur une jambe pendant que la prochaine carte se lit", category: "défi" },
+    { text: "Change un bout de vêtement avec la personne en face", category: "défi" },
+    { text: "Avale un oeuf cru", category: "défi" },
+    { text: "La personne de ton choix te fait un belly shot", category: "défi" },
+    { text: "Drink un shot ! mystère", category: "défi" },
+    { text: "Laisse les gens texter à une personne avec ton cell (pas le droit de suprimmer avant demain)", category: "défi" },
+    { text: "Sort dehors deux bonnes minutes ", category: "défi" },
+    { text: "Laisse les gens fouiller dans ton cell 2 bonnes minutes", category: "défi" },
+    { text: "Kiss ton partenaire en ayant une gorgée (Transfert la)", category: "défi" },
+    { text: "Fais un tour de la bâtisse. Pas le droit de mettre un manteau ou des bottes", category: "défi" },
+    { text: "Enlève un bout de vêtement", category: "défi" },
+    { text: "Fait 15 push-up (les filles ont le droit au genoux) 💪", category: "défi" },
+    { text: "Appel le dernier numéro a qui tu as parlé. Pas le droit de racrocher avant 1 minutes (s'il répond pas passe au suivant)", category: "défi" },
     
     // DIVERS
-    { text: "Le prochain à arriver à la fête doit faire quelque chose de crazyyy", category: "divers" },
-    { text: "Tous ceux avec les yeux bleus changent de place", category: "divers" },
-    { text: "[PLAYER] devient le roi/la reine jusqu'à la prochaine carte", category: "divers" },
-    { text: "Tout le monde fait un toast à [PLAYER]", category: "divers" },
-    { text: "Mets-toi d'accord avec [PLAYER] sur quelque chose", category: "divers" },
-    { text: "Compte jusqu'à 100 en murmurant", category: "divers" },
-    { text: "Celui qui rit en premier après cette carte perd", category: "divers" },
+    { text: "Votons ! La personne qui déçoit le plus ses parents boit", category: "divers" },
+    { text: "Votons ! Le plus résistant à l'alcool finit sa boisson", category: "divers" },
+    { text: "Ont prend un selfi tout le monde ensemble", category: "divers" },
+    { text: "Jeu de la carte bisou", category: "divers" },
+    { text: "Le plus suseceptible... De juger les gens selon leur signe astrologique", category: "divers" },
+    { text: "Tout le monde change de place", category: "divers" },
+    { text: "Le plsu susceptible d'avoir un nom pour son entre jambes boit", category: "divers" },
+    { text: "Votons ! Le plus saoul donne sa consomation", category: "divers" },
+    { text: "Le plsu susceptible d'avoir un nom pour son entre jambes boit", category: "divers" },
+    //{ text: "Rebrasse le paquest au complet 😱", category: "divers" },
+    { text: "tout le monde doit répondre à la 1er story", category: "divers" },
+    //{ text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
 ];
 
-let usedCards = [];
-let lastShownCard = null;
 
 // Logique de la page du jeu
 document.addEventListener("DOMContentLoaded", () => {
@@ -48,89 +64,37 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initGame() {
-    const players = getPlayersFromStorage();
-    
-    if (players.length === 0) {
-        window.location.href = "index.html";
-        return;
-    }
-
-    // Afficher les joueurs
-    const playersInfo = document.querySelector(".players-info");
-    if (playersInfo) {
-        players.forEach(player => {
-            const badge = document.createElement("div");
-            badge.className = "player-badge";
-            badge.textContent = player;
-            playersInfo.appendChild(badge);
-        });
-    }
-
-    // Ajouter les boutons
-    const gameControls = document.querySelector(".game-controls");
-    if (gameControls) {
-        const nextBtn = document.createElement("button");
-        nextBtn.textContent = "Prochaine Carte";
-        nextBtn.onclick = () => drawCard(players);
-        
-        const rouletteBtn = document.createElement("button");
-        rouletteBtn.className = "secondary";
-        rouletteBtn.textContent = "🎡 Roulette";
-        rouletteBtn.onclick = () => goToRoulette();
-        
-        const homeBtn = document.createElement("button");
-        homeBtn.className = "secondary";
-        homeBtn.textContent = "Accueil";
-        homeBtn.onclick = () => window.location.href = "index.html";
-        
-        gameControls.appendChild(nextBtn);
-        gameControls.appendChild(rouletteBtn);
-        gameControls.appendChild(homeBtn);
-    }
-
-    // Afficher la première carte automatiquement
-    drawCard(players);
+    cards = DECK;
+    drawCard();
 }
 
-function drawCard(players) {
-    // Si toutes les cartes sont utilisées, réinitialiser
-    if (usedCards.length >= DECK.length) {
-        usedCards = [];
-    }
-
-    // Trouver une carte non utilisée
-    let card;
-    let attempts = 0;
-    do {
-        card = DECK[Math.floor(Math.random() * DECK.length)];
-        attempts++;
-    } while (usedCards.includes(card) && attempts < DECK.length);
-
-    usedCards.push(card);
-    lastShownCard = card;
-
-    // Remplacer les [PLAYER] par des noms aléatoires
-    let displayText = card.text;
-    const playerMatches = displayText.match(/\[PLAYER\]/g);
-    
-    if (playerMatches) {
-        playerMatches.forEach(() => {
-            // Éviter de répéter le même joueur deux fois si possible
-            let selectedPlayer = players[Math.floor(Math.random() * players.length)];
-            displayText = displayText.replace("[PLAYER]", selectedPlayer);
-        });
-    }
+function drawCard() {
 
     // Afficher la carte
-    const cardDisplay = document.querySelector(".card-display");
-    if (cardDisplay) {
-        cardDisplay.innerHTML = `
-            <div class="card-category">${card.category}</div>
-            <div class="card-text">${displayText}</div>
-        `;
+    let cardDisplay = document.querySelector(".card-display");
+    if(cards.length > 0) {
+        let randomIndex = Math.floor(Math.random() * cards.length);
+        let card = cards[randomIndex];
+        if (cardDisplay) {
+            cardDisplay.innerHTML = `
+                <div class="card-category">${card.category[0].toUpperCase() + card.category.slice(1)}</div>
+                <div class="card-text">${card.text}</div>
+            `;
+            cards.splice(randomIndex, 1); // Retirer la carte du deck
+        }
     }
+    else{
+        if (cardDisplay) {
+            cardDisplay.innerHTML = `
+                <div class="card-category">Fin du deck</div>
+                <div class="card-text">Rebrassez le paquet pour continuer à jouer !</div>
+            `;
+        }
+    }
+
 }
 
-function goToRoulette() {
-    window.location.href = "roulette.html";
+function acceuil(){
+    clearAllPlayers();
+    window.location.href = "index.html";
 }

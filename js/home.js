@@ -1,17 +1,9 @@
 // Logique de la page d'accueil
 
-const playersNb = document.getElementById("amountplayers");
-const form = document.querySelector(".form");
-const decreaseBtn = document.getElementById("decrease-players");
-const increaseBtn = document.getElementById("increase-players");
-
-// Initialiser lors du chargement de la page
-window.addEventListener("load", () => {
-    if (!playersNb.value || playersNb.value < 1) {
-        playersNb.value = 1;
-        adaptNames(1);
-    }
-});
+playersNb = document.getElementById("amountplayers");
+form = document.querySelector(".form");
+decreaseBtn = document.getElementById("decrease-players");
+increaseBtn = document.getElementById("increase-players");
 
 form.addEventListener("submit", (e) => {
     setNames(e);
@@ -28,12 +20,12 @@ increaseBtn.addEventListener("click", increasePlayer);
 function setNames(e) {
     e.preventDefault();
     
-    const names = [];
-    const usedNames = new Set();
-    let isValid = true;
+    names = [];
+    usedNames = new Set();
+    isValid = true;
 
     // Collecter les noms et vérifier les validations
-    for (let i = 0; i < playersNb.value; i++) {
+    for (i = 0; i < playersNb.value; i++) {
         const input = document.getElementById("name" + i);
         const name = input.value.trim();
 
@@ -71,21 +63,21 @@ function setNames(e) {
 
 
 function adaptNames(value) {
-    const container = document.getElementById("players-names");
+    container = document.getElementById("players-names");
     
     // Ajouter les nouveaux champs nécessaires
     for (let i = 0; i < value; i++) {
         if (!document.getElementById("name" + i)) {
-            const label = document.createElement("label");
+            label = document.createElement("label");
             label.textContent = " Player " + (i + 1);
             
-            const input = document.createElement("input");
+            input = document.createElement("input");
             input.type = "text";
             input.id = "name" + i;
             input.required = true;
             input.placeholder = "Enter a crazy name";
             
-            const br = document.createElement("br");
+            br = document.createElement("br");
             
             container.appendChild(label);
             container.appendChild(input);
@@ -94,11 +86,11 @@ function adaptNames(value) {
     }
     
     // Supprimer les champs au-delà du nombre requis
-    let i = value;
+    i = value;
     while(document.getElementById("name" + i)) {
-        const input = document.getElementById("name" + i);
-        const label = input.previousElementSibling;
-        const br = input.nextElementSibling;
+        input = document.getElementById("name" + i);
+        label = input.previousElementSibling;
+        br = input.nextElementSibling;
         
         if (label && label.tagName === 'LABEL') label.remove();
         input.remove();
