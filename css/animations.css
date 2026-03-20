@@ -1,0 +1,356 @@
+/* ===========================
+   ANIMATIONS & KEYFRAMES
+   =========================== */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide Left Animation */
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide Right Animation */
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Card Flip Animation */
+@keyframes cardFlip {
+    from {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(90deg) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0deg) scale(1);
+    }
+}
+
+/* Pulse Animation for emphasis */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Shimmer Animation for card background */
+@keyframes shimmer {
+    0% {
+        transform: translate(-100%, -100%) rotate(45deg);
+    }
+    100% {
+        transform: translate(100%, 100%) rotate(45deg);
+    }
+}
+
+/* Glow Animation */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.8), 0 0 30px rgba(236, 72, 153, 0.4);
+    }
+}
+
+/* Rotate Animation */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Color Pulse Animation */
+@keyframes colorPulse {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+/* Zoom In Animation */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Zoom Out Animation */
+@keyframes zoomOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* Floating Animation */
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Blink Animation */
+@keyframes blink {
+    0%, 49%, 100% {
+        opacity: 1;
+    }
+    50%, 99% {
+        opacity: 0;
+    }
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+/* Wave Animation */
+@keyframes wave {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(14deg);
+    }
+    20% {
+        transform: rotate(-8deg);
+    }
+    30% {
+        transform: rotate(14deg);
+    }
+    40% {
+        transform: rotate(-4deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    60% {
+        transform: rotate(0deg);
+    }
+}
+
+/* ===========================
+   ANIMATION UTILITY CLASSES
+   =========================== */
+
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease;
+}
+
+.animate-slideDown {
+    animation: slideDown 0.6s ease;
+}
+
+.animate-slideUp {
+    animation: slideUp 0.6s ease;
+}
+
+.animate-slideLeft {
+    animation: slideLeft 0.6s ease;
+}
+
+.animate-slideRight {
+    animation: slideRight 0.6s ease;
+}
+
+.animate-cardFlip {
+    animation: cardFlip 0.6s ease;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce {
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.animate-rotate {
+    animation: rotate 2s linear infinite;
+}
+
+.animate-colorPulse {
+    animation: colorPulse 2s ease-in-out infinite;
+}
+
+.animate-zoomIn {
+    animation: zoomIn 0.6s ease;
+}
+
+.animate-zoomOut {
+    animation: zoomOut 0.6s ease;
+}
+
+.animate-floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.animate-wave {
+    animation: wave 0.8s ease-in-out;
+}
+
+/* ===========================
+   STAGGERED ANIMATIONS
+   =========================== */
+
+.stagger-child:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.stagger-child:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.stagger-child:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.stagger-child:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.stagger-child:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+/* ===========================
+   HOVER ANIMATIONS
+   =========================== */
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-glow {
+    transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+}
+
+/* ===========================
+   TRANSITION UTILITIES
+   =========================== */
+
+.transition-fast {
+    transition: all 0.15s ease;
+}
+
+.transition-normal {
+    transition: all 0.3s ease;
+}
+
+.transition-slow {
+    transition: all 0.5s ease;
+}
+
+.transition-smooth {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
