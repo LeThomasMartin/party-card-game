@@ -22,3 +22,14 @@ function clearAllPlayers() {
         i++;
     }
 }
+
+function getPlayersFromStorage() {
+    let names = [];
+    let i = 0;
+    while(localStorage.getItem("name" + i)) {
+        names.push(localStorage.getItem("name" + i));
+        i++;
+    }
+
+    return names;
+}

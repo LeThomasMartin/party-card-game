@@ -75,6 +75,7 @@ function adaptNames(value) {
             input.type = "text";
             input.id = "name" + i;
             input.required = true;
+            input.maxLength = 11;
             input.placeholder = "Enter a crazy name";
             
             br = document.createElement("br");

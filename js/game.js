@@ -57,6 +57,8 @@ const DECK = [
     //{ text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
 ];
 
+let names = getPlayersFromStorage();
+let turn = 0;
 
 // Logique de la page du jeu
 document.addEventListener("DOMContentLoaded", () => {
@@ -65,11 +67,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initGame() {
     cards = DECK;
+    displayPlayers();
     drawCard();
 }
 
 function drawCard() {
 
+    lastPlayerTurn();
     // Afficher la carte
     let cardDisplay = document.querySelector(".card-display");
     if(cards.length > 0) {
@@ -92,9 +96,46 @@ function drawCard() {
         }
     }
 
+    playerTurn();
+}
+
+function playerTurn(){
+    let playerElement = document.getElementById("player" + turn);
+    if(playerElement) {
+        playerElement.classList.add("active"); 
+    }
+    turn++;
+    if(turn >= names.length) {
+        turn = 0;
+    }
+}
+
+function lastPlayerTurn(){
+    let lastPlayerIndex = 0;
+    if(turn === 0) {
+        lastPlayerIndex = names.length - 1;
+    } else {
+        lastPlayerIndex = turn - 1;
+    }
+    let lastPlayerElement = document.getElementById("player" + lastPlayerIndex);
+    if(lastPlayerElement) {
+        lastPlayerElement.classList.remove("active"); 
+    }
+}
+
+function displayPlayers() {
+    let container = document.getElementById("players-info");
+    for(let i = 0; i < names.length; i++) {
+        let playerElement = document.createElement("div");
+        playerElement.className = "player-badge";
+        playerElement.textContent = names[i];
+        playerElement.id = "player" + i;
+        container.appendChild(playerElement);
+    }
 }
 
 function acceuil(){
     clearAllPlayers();
+    turn = 0;
     window.location.href = "index.html";
 }
