@@ -1,7 +1,6 @@
 // Deck de cartes pour le jeu
 const DECK = [
 
-    //{ id: 999, text: "[player] doit pépon [random]", category: "défi" },
     // BOISSON
     { id: 1, text: "Les gars boivent", category: "boisson" },
     { id: 2, text: "Les filles boivent", category: "boisson" },
@@ -12,9 +11,10 @@ const DECK = [
     { id: 7, text: "Celui qui a le moins bu termine sa boisson", category: "boisson" },
     { id: 8, text: "finis ta boisson !", category: "boisson" },
     { id: 9, text: "Gorgée générale !", category: "boisson" },
-    { id: 10, text: "Prends une gorgée", category: "boisson" },
-    { id: 11, text: "Donne 2 shots", category: "boisson" },
+    { id: 10, text: "[player] prend une gorgée", category: "boisson" },
+    { id: 11, text: "[player] donne 2 shots", category: "boisson" },
     { id: 12, text: "Ceux en couple boivent", category: "boisson" },
+    { id: 37, text: "[player] peux donner de 1 à 10 gorgées à [random]", category: "défi" }, // Pas de base
 
     // PARLER
     { id: 13, text: "Quel est le truc le plus BDSM que tu as fait ?", category: "parler" },
@@ -22,14 +22,14 @@ const DECK = [
     { id: 15, text: "Selon toi... qui est le moins bien habillé dans la pièce ?", category: "parler" },
     { id: 16, text: "Si tu devais changer de vie avec une personne dans la piece ce serait qui ?", category: "parler" },
     { id: 17, text: "Excepté ton partenaire avec qui sortirais-tu dans la pièce ?", category: "parler" },
-    { id: 18, text: "Quel est ton plus grand fantasme ?", category: "parler" },
+    { id: 18, text: "[player] quel est ton plus grand fantasme ?", category: "parler" },
     { id: 19, text: "Avec qui voudrais-tu le moins être en couple dans la pièce ?", category: "parler" },
-    { id: 20, text: "Pose la question de ton choix à la personnne de ton choix", category: "parler" },
+    { id: 20, text: "[player] pose la question de ton choix à la personnne de ton choix", category: "parler" },
     { id: 21, text: "Qui appellerais tu dans la pièce pour t'aider à cacher un corps ?", category: "parler" },
     { id: 22, text: "Quelle est ta pire perte d'argent ?", category: "parler" },
     { id: 23, text: "À quand remonte ton dernier orgasme ?", category: "parler" },
-    { id: 24, text: "Décris ton meilleur souvenir en 30 secondes", category: "parler" },
-    
+    { id: 24, text: "Quel est le truc le plus illégal que tu as fait ?", category: "parler" }, // Pas de base
+
     // DÉFI
     { id: 25, text: "Change un bout de vêtement avec la personne en face", category: "défi" },
     { id: 26, text: "Avale un oeuf cru", category: "défi" },
@@ -43,19 +43,21 @@ const DECK = [
     { id: 34, text: "Enlève un bout de vêtement", category: "défi" },
     { id: 35, text: "Fait 15 push-up (les filles ont le droit au genoux) 💪", category: "défi" },
     { id: 36, text: "Appel le dernier numéro a qui tu as parlé. Pas le droit de racrocher avant 1 minutes (s'il répond pas passe au suivant)", category: "défi" },
+    { id: 37, text: "[player] doit faire un massage à [random]", category: "défi" }, // Pas de base
     
     // DIVERS
-    { id: 37, text: "Votons ! La personne qui déçoit le plus ses parents boit", category: "divers" },
-    { id: 38, text: "Votons ! Le plus résistant à l'alcool finit sa boisson", category: "divers" },
-    { id: 39, text: "Ont prend un selfi tout le monde ensemble", category: "divers" },
-    { id: 40, text: "Jeu de la carte bisou", category: "divers" },
-    { id: 41, text: "Le plus suseceptible... De juger les gens selon leur signe astrologique", category: "divers" },
-    { id: 42, text: "Tout le monde change de place", category: "divers" },
-    { id: 43, text: "Votons ! Le plus saoul donne sa consomation", category: "divers" },
-    { id: 44, text: "Le plus susceptible d'avoir un nom pour son entre jambes boit", category: "divers" },
-    { id: 45, text: "tout le monde doit répondre à la 1er story", category: "divers" },
-    { id: 46, text: "Rebrasse le paquest au complet 😱", category: "divers", effect: "shuffleDeck" },
-    //{ id: 47, text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
+    { id: 38, text: "Votons ! La personne qui déçoit le plus ses parents boit", category: "divers" },
+    { id: 39, text: "Votons ! Le plus résistant à l'alcool finit sa boisson", category: "divers" },
+    { id: 40, text: "Ont prend un selfi tout le monde ensemble", category: "divers" },
+    { id: 41, text: "Jeu de la carte bisou", category: "divers" },
+    { id: 42, text: "Le plus suseceptible... De juger les gens selon leur signe astrologique", category: "divers" },
+    { id: 43, text: "Tout le monde change de place", category: "divers" },
+    { id: 44, text: "Votons ! Le plus saoul donne sa consomation", category: "divers" },
+    { id: 45, text: "Le plus susceptible d'avoir un nom pour son entre jambes boit", category: "divers" },
+    { id: 46, text: "tout le monde doit répondre à la 1er story", category: "divers" },
+    { id: 47, text: "Rebrasse le deck au complet 😱", category: "divers", effect: "shuffleDeck" },
+    //{ id: 48, text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
+
 ];
 
 let names = getPlayersFromStorage();
@@ -81,7 +83,9 @@ function drawCard() {
         let randomIndex = Math.floor(Math.random() * cards.length);
         let card = cards[randomIndex];
 
-
+        if(card.text.includes("[player]") || card.text.includes("[random]")) {
+            card.text = changeCardText(card.text);
+        }
 
         cardDisplay.className = "card-display category-" + card.category;
         cardDisplay.innerHTML = `
@@ -99,7 +103,19 @@ function drawCard() {
     playerTurn();
 }
 
+function changeCardText(text) {
+    let playerName = names[turn];
+    let randomName = names[Math.floor(Math.random() * names.length)];
+    text = text.replace("[player]", playerName);
+    if (text.includes("[random]")) {
+        // Roulette animation for random name pour plus tard
+        text = text.replace("[random]", randomName);
+    }
+    return text;
+}
+
 function endGame() {
+        let cardDisplay = document.querySelector(".card-display");
         cardDisplay.className = "card-display endgame";
         cardDisplay.innerHTML = `
             <div class="card-category">🎉 FIN DU DECK 🎉</div>
@@ -112,7 +128,7 @@ function endGame() {
         drawButton.disabled = true;
         
         // Add endgame effect to body
-        endgameEffect();
+        endGameEffect();
         
         // Enable restart button after 2 seconds
         setTimeout(() => {
@@ -123,7 +139,7 @@ function endGame() {
 
 }
 
-function endgameEffect() {
+function endGameEffect() {
 
     let gameContainer = document.querySelector(".game-container");
     // Remove existing overlay if any
