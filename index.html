@@ -1,25 +1,32 @@
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The crazy party game</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/animations.css">
 </head>
 
 <body>
     <h1>The crazy party game</h1>
     <h4>Welcome to the crazy party game!</h4>
-    <p> Please enter your name to start playing.</p>
-    <form class="form">
-        <label for="amountplayers">Number of Players:</label>
-        <button type="button" id="decrease-players" onclick="decreasePlayer()">-</button>
-        <input type="number" id="amountplayers" name="players" required placeholder="Enter number of players" max="10" min="1">
-        <button type="button" id="increase-players" onclick="increasePlayer()">+</button>
+    <main>
+        <form class="form">
+            <div class="player-controls">
+                <label for="amountplayers">Number of Players:</label>
+                <button type="button" id="decrease-players">−</button>
+                <input type="number" id="amountplayers" name="players" required placeholder="Enter number of players" max="10" min="1" value="1">
+                <button type="button" id="increase-players">+</button>
+            </div>
 
-        <div class="player-names" id="players-names">
-        </div>
+            <div class="player-names" id="players-names">
+            </div>
 
-        <button type="submit">Start Playing</button>
-    </form>
+            <button type="submit" style="width: 100%;">🎮 Start Playing</button>
+        </form>
+    </main>
 
-    <script src="home.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>
