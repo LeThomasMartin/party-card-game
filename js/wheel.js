@@ -178,7 +178,7 @@ function getWinnerIndex() {
 }
 
 function getWheelWinner() {
-    loadEntriesFromNames(turn);
+    loadEntriesFromNames(turn % names.length);
 
     return new Promise((resolve) => {
     if (isSpinning || entries.length < 2) {

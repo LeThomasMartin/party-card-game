@@ -484,6 +484,11 @@ button#increase-players:active {
     max-width: 600px;
 }
 
+.game-controls button:not(.secondary) {
+    flex: 1;
+    min-width: 250px;
+}
+
 /* ===========================
    RESPONSIVE DESIGN
    =========================== */

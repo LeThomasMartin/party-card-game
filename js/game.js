@@ -108,7 +108,7 @@ async function drawCard() {
     let displayedText = card.text;
     
     if (displayedText.includes("[player]")) {
-        let playerName = names[turn];
+        let playerName = names[turn % names.length];
         displayedText = displayedText.replace("[player]", playerName);
     }
     
@@ -140,7 +140,7 @@ async function drawCard() {
 }
 
 async function changeCardText(text) {
-    drawButton.textContent = "Faire tourner la roue !";
+    drawButton.textContent = "Tourner la roue !";
     drawButtonMode = "wheel";
     await waitForWheelButtonClick();
 
