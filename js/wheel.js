@@ -30,6 +30,18 @@ function secureRandomInt(max) {
   return Math.floor(secureRandom() * max);
 }
 
+// Helper function to adjust color brightness
+function adjustBrightness(color, percent) {
+  const num = parseInt(color.replace("#",""), 16);
+  const amt = Math.round(2.55 * percent);
+  const R = (num >> 16) + amt;
+  const G = (num >> 8 & 0x00FF) + amt;
+  const B = (num & 0x0000FF) + amt;
+  return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
+    (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255))
+    .toString(16).slice(1);
+}
+
 // Recharge la roue à partir de la liste names, en excluant le joueur courant
 function loadEntriesFromNames(excludeIndex = null) {
   entries = [...names];
@@ -90,15 +102,29 @@ function drawWheel() {
     const start = rotation + i * sliceAngle;
     const end = start + sliceAngle;
 
+    // Create gradient for each slice
+    const gradient = ctx.createLinearGradient(cx, cy, cx + Math.cos(start + sliceAngle / 2) * radius, cy + Math.sin(start + sliceAngle / 2) * radius);
+    const baseColor = colors[i % colors.length];
+    gradient.addColorStop(0, baseColor);
+    gradient.addColorStop(1, adjustBrightness(baseColor, -0.2));
+
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.arc(cx, cy, radius, start, end);
     ctx.closePath();
-    ctx.fillStyle = colors[i % colors.length];
+    ctx.fillStyle = gradient;
     ctx.fill();
 
-    ctx.strokeStyle = "#111827";
-    ctx.lineWidth = 4;
+    // Add bright border to each slice
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Add outer slice border
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, start, end);
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.4)";
+    ctx.lineWidth = 2;
     ctx.stroke();
 
     ctx.save();
@@ -106,22 +132,33 @@ function drawWheel() {
     ctx.rotate(start + sliceAngle / 2);
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
+    
+    // Add text shadow/outline for better readability
+    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+    ctx.font = "bold 28px 'Rubik', Arial";
+    const textRadius = radius - 60;
+    ctx.fillText(entries[i], textRadius + 2, 2);
+    
+    // Main text
     ctx.fillStyle = "white";
-    ctx.font = "bold 30px Arial";
-
-    const text = entries[i];
-    const textRadius = radius - 50;
-    ctx.fillText(text, textRadius, 0);
+    ctx.fillText(entries[i], textRadius, 0);
     ctx.restore();
   }
 
   ctx.beginPath();
   ctx.arc(cx, cy, 70, 0, Math.PI * 2);
-  ctx.fillStyle = "#f8fafc";
+  ctx.fillStyle = "#f59e0b";
   ctx.fill();
-  ctx.strokeStyle = "#cbd5e1";
-  ctx.lineWidth = 6;
+  ctx.strokeStyle = "#fbbf24";
+  ctx.lineWidth = 5;
   ctx.stroke();
+  
+  // Add center glow
+  const glowGradient = ctx.createRadialGradient(cx, cy, 60, cx, cy, 80);
+  glowGradient.addColorStop(0, "rgba(245, 158, 11, 0.2)");
+  glowGradient.addColorStop(1, "rgba(245, 158, 11, 0)");
+  ctx.fillStyle = glowGradient;
+  ctx.fill();
 }
 
 function normalizeAngle(a) {
