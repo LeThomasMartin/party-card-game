@@ -1,21 +1,22 @@
 // Deck de cartes pour le jeu
 const DECK = [
-
+    
+    { id: 37, text: "[player] peux donner de 1 à 10 gorgées à [random]", category: "défi" }, // Pas de base
+ 
     // BOISSON
     { id: 1, text: "Les gars boivent", category: "boisson" },
     { id: 2, text: "Les filles boivent", category: "boisson" },
     { id: 3, text: "Drinking race !", category: "boisson" },
     { id: 4, text: "Prend un SHOT!", category: "boisson" },
-    { id: 5, text: "Donne deux gorgées", category: "boisson" },
+    { id: 10, text: "[player] prend une gorgée", category: "boisson" },
+    /*{ id: 5, text: "Donne deux gorgées", category: "boisson" },
     { id: 6, text: "Ta gauche et ta droite boivent", category: "boisson" },
     { id: 7, text: "Celui qui a le moins bu termine sa boisson", category: "boisson" },
     { id: 8, text: "finis ta boisson !", category: "boisson" },
     { id: 9, text: "Gorgée générale !", category: "boisson" },
-    { id: 10, text: "[player] prend une gorgée", category: "boisson" },
     { id: 11, text: "[player] donne 2 shots", category: "boisson" },
     { id: 12, text: "Ceux en couple boivent", category: "boisson" },
-    { id: 37, text: "[player] peux donner de 1 à 10 gorgées à [random]", category: "défi" }, // Pas de base
-
+    
     // PARLER
     { id: 13, text: "Quel est le truc le plus BDSM que tu as fait ?", category: "parler" },
     { id: 14, text: "Raconte ta pire annectode de sexe", category: "parler" },
@@ -57,11 +58,25 @@ const DECK = [
     { id: 46, text: "tout le monde doit répondre à la 1er story", category: "divers" },
     { id: 47, text: "Rebrasse le deck au complet 😱", category: "divers", effect: "shuffleDeck" },
     //{ id: 48, text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
-
+    
+    */
+   
 ];
 
-let names = getPlayersFromStorage();
+let drawButton = document.getElementById("draw-button");
+let waitingForWheelClick = false;
 let turn = 0;
+drawButtonMode = "draw"; // Modes: "draw", "wheel", "endgame"
+
+drawButton.addEventListener("click", async () => {
+    if (drawButtonMode === "draw") {
+        await drawCard();
+    } else if (drawButtonMode === "wheel") {
+        // This case is handled in changeCardText function, so we just ignore clicks here
+    } else if (drawButtonMode === "endgame") {
+        resetGame();
+    }
+});
 
 // Logique de la page du jeu
 document.addEventListener("DOMContentLoaded", () => {
@@ -69,52 +84,107 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initGame() {
+    hideWheel();
     shuffleDeck();
     displayPlayers();
     drawCard();
 }
 
-function drawCard() {
+async function drawCard() {
     lastPlayerTurn();
-
-    let cardDisplay = document.querySelector(".card-display");
-
-    if (cards.length > 0) {
-        let randomIndex = Math.floor(Math.random() * cards.length);
-        let card = cards[randomIndex];
-
-        if(card.text.includes("[player]") || card.text.includes("[random]")) {
-            card.text = changeCardText(card.text);
-        }
-
-        cardDisplay.className = "card-display category-" + card.category;
-        cardDisplay.innerHTML = `
-            <div class="card-category">${card.category[0].toUpperCase() + card.category.slice(1)}</div>
-            <div class="card-text">${card.text}</div>
-        `;
-        if(card.effect){
-            handleCardEffect(card);
-        }
-        cards.splice(randomIndex, 1);
-    } else {
-        endGame();
-    }
-
     playerTurn();
+    
+    let cardDisplay = document.querySelector(".card-display");
+    
+    if (cards.length === 0) {
+        endGame();
+        return;
+    }
+    
+    let randomIndex = Math.floor(Math.random() * cards.length);
+    let card = cards[randomIndex];
+    
+    const hasRandom = card.text.includes("[random]");
+    let displayedText = card.text;
+    
+    if (displayedText.includes("[player]")) {
+        let playerName = names[turn];
+        displayedText = displayedText.replace("[player]", playerName);
+    }
+    
+    if (hasRandom) {
+        displayedText = displayedText.replace("[random]", "...");
+    }
+    
+    cardDisplay.className = "card-display category-" + card.category;
+    cardDisplay.innerHTML = `
+    <div class="card-category">${card.category[0].toUpperCase() + card.category.slice(1)}</div>
+    <div class="card-text">${displayedText}</div>
+    `;
+    
+    if (hasRandom) {
+        const finalText = await changeCardText(displayedText);
+        
+        cardDisplay.innerHTML = `
+        <div class="card-category">${card.category[0].toUpperCase() + card.category.slice(1)}</div>
+        <div class="card-text">${finalText}</div>
+        `;
+    }
+    
+    if (card.effect) {
+        handleCardEffect(card);
+    }
+    
+    cards.splice(randomIndex, 1);
+    turn++;
 }
 
-function changeCardText(text) {
-    let playerName = names[turn];
-    let randomName = names[Math.floor(Math.random() * names.length)];
-    text = text.replace("[player]", playerName);
-    if (text.includes("[random]")) {
-        // Roulette animation for random name pour plus tard
-        text = text.replace("[random]", randomName);
-    }
+async function changeCardText(text) {
+    drawButton.textContent = "Faire tourner la roue !";
+    drawButtonMode = "wheel";
+    await waitForWheelButtonClick();
+
+    drawButton.disabled = true;
+    let winner = await spinWheelForRandom();
+
+    text = text.replace("...", winner);
+
+    drawButton.textContent = "Prochaine carte";
+    drawButtonMode = "draw";
+    drawButton.disabled = false;
+
     return text;
 }
 
+function waitForWheelButtonClick() {
+    return new Promise((resolve) => {
+        waitingForWheelClick = true;
+
+        const handler = () => {
+            drawButton.removeEventListener("click", handler);
+            resolve();
+        };
+
+        drawButton.addEventListener("click", handler);
+    });
+}
+
+async function spinWheelForRandom() {
+    showWheel();
+    let winner = await getWheelWinner();
+    hideWheel();
+    return winner;
+}
+
 function endGame() {
+        // Remove active state from all players
+        for (let i = 0; i < names.length; i++) {
+            let playerElement = document.getElementById("player" + i);
+            if (playerElement) {
+                playerElement.classList.remove("active");
+            }
+        }
+        
         let cardDisplay = document.querySelector(".card-display");
         cardDisplay.className = "card-display endgame";
         cardDisplay.innerHTML = `
@@ -123,17 +193,15 @@ function endGame() {
             <div class="endgame-subtitle">Rebrassez le paquet pour continuer à jouer !</div>
         `;
 
-        let drawButton = document.getElementById("draw-button");
         drawButton.textContent = "Merci d'avoir joué !";
         drawButton.disabled = true;
         
         // Add endgame effect to body
         endGameEffect();
-        
         // Enable restart button after 2 seconds
         setTimeout(() => {
             drawButton.textContent = "Rebrasser le deck";
-            drawButton.onclick = resetGame;
+            drawButtonMode = "endgame";
             drawButton.disabled = false;
         }, 2000);
 
@@ -165,23 +233,15 @@ function endGameEffect() {
 }
 
 function playerTurn(){
-    let playerElement = document.getElementById("player" + turn);
+    let playerIndex = turn % names.length;
+    let playerElement = document.getElementById("player" + playerIndex);
     if(playerElement) {
         playerElement.classList.add("active"); 
-    }
-    turn++;
-    if(turn >= names.length) {
-        turn = 0;
     }
 }
 
 function lastPlayerTurn(){
-    let lastPlayerIndex = 0;
-    if(turn === 0) {
-        lastPlayerIndex = names.length - 1;
-    } else {
-        lastPlayerIndex = turn - 1;
-    }
+    let lastPlayerIndex = (turn - 1 + names.length) % names.length;
     let lastPlayerElement = document.getElementById("player" + lastPlayerIndex);
     if(lastPlayerElement) {
         lastPlayerElement.classList.remove("active"); 
@@ -211,7 +271,6 @@ function handleCardEffect(card) {
     }
 }
 
-
 function shuffleDeck() {
     let cardDisplay = document.querySelector(".card-display");
     
@@ -235,10 +294,9 @@ function shuffleDeck() {
 function resetGame() {
     shuffleDeck();
     turn = 0; // Réinitialiser le tour
-    let drawButton = document.getElementById("draw-button");
     if (drawButton) {
         drawButton.textContent = "Prochaine Carte";
-        drawButton.onclick = drawCard;
+        drawButtonMode = "draw";
     }
     
     // Remove endgame overlay if it exists

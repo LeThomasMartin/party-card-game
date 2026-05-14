@@ -5,6 +5,7 @@
     <title>The crazy party game - Game</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/animations.css">
+    <link rel="stylesheet" type="text/css" href="css/wheel.css">
 </head>
 <body>
     <h1>The crazy party game</h1>
@@ -17,12 +18,26 @@
             </div>
 
             <div class="game-controls"></div>
-            <button onclick="drawCard()" id="draw-button">Prochaine Carte</button>
+            <button id="draw-button">Prochaine Carte</button>
             <button class="secondary" onclick="acceuil()">Accueil</button>
         </div>
     </main>
 
+    <div id="wheelModal" class="wheel-modal hidden">
+        <div class="wheel-modal-content">
+            <h2>Roulette</h2>
+
+            <div class="wheel-wrap">
+                <div class="pointer"></div>
+                <canvas id="wheel" width="900" height="900"></canvas>
+                <button id="spinBtn" class="spin-center" type="button">SPIN</button>
+            </div>
+
+        </div>
+    </div>
+
     <script src="js/utils.js"></script>
+    <script src="js/wheel.js"></script>
     <script src="js/game.js"></script>
 </body>
 </html>
