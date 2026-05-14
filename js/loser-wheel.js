@@ -1,17 +1,11 @@
 // Challenges for the Wheel of Losers
 const CHALLENGES = [
-    { id: 25, short: "Change un bout de vêtement", text: "Change un bout de vêtement avec la personne en face", category: "défi" },
-    { id: 26, short: "Avale un oeuf cru", text: "Avale un oeuf cru", category: "défi" },
-    { id: 27, short: "Belly shot", text: "La personne de ton choix te fait un belly shot", category: "défi" },
-    { id: 28, short: "Shot mystère", text: "Drink un shot ! mystère", category: "défi" },
-    { id: 29, short: "Texte ton cell", text: "Laisse les gens texter à une personne avec ton cell (pas le droit de suprimmer avant demain)", category: "défi" },
-    { id: 30, short: "Sors deux minutes", text: "Sort dehors deux bonnes minutes ", category: "défi" },
-    { id: 31, short: "Fouille ton cell", text: "Laisse les gens fouiller dans ton cell 2 bonnes minutes", category: "défi" },
-    { id: 32, short: "Transfere ue gorgée", text: "Kiss ton partenaire en ayant une gorgée (Transfert la)", category: "défi" },
-    { id: 33, short: "Tour de la bâtisse", text: "Fais un tour de la bâtisse. Pas le droit de mettre un manteau ou des bottes", category: "défi" },
-    { id: 34, short: "Enlève un vêtement", text: "Enlève un bout de vêtement", category: "défi" },
-    { id: 35, short: "15 push-up", text: "Fait 15 push-up (les filles ont le droit au genoux) 💪", category: "défi" },
-    { id: 36, short: "Appel le dernier", text: "Appel le dernier numéro a qui tu as parlé. Pas le droit de racrocher avant 1 minutes (s'il répond pas passe au suivant)", category: "défi" },
+    { short: "Boit en tab**ck", text: "Finis tout les verre des autres joueurs (pas les tiens)"},
+    { short: "Petit snack", text: "Avale un oeuf cru avec la coquille "},
+    { short: "Aime tu manger épicé ?", text: "Mange le truc le plus épicé de la maison" },
+    { short: "T un tapette chanceuse", text: "Rien tu t sauvé du défi" },
+    { short: "Mon pere y est riche en...", text: "Donne moi 20 pissse parceque anyway mon pere est riche en tabarnack" },
+    { short: "Tequila heineken", text: "Tequila heineken pas le temps de niaiser, prend un shot(tequilla si possible) et une biere(heineken si possible)" },
 ];
 
 let loserIsSpinning = false;
