@@ -382,6 +382,16 @@ button#increase-players:active {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
 }
 
+.card-display.category-looser {
+    background: linear-gradient(135deg, #383f3d 0%, #3e4643 100%);
+    box-shadow: 0 30px 80px rgba(56, 63, 61, 0.4), 0 0 40px rgba(56, 63, 61, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-display.category-looser::before {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+}
+
 .card-category {
     font-size: 0.9rem;
     font-weight: 700;

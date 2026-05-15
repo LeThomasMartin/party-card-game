@@ -64,8 +64,10 @@ const DECK = [
 
 let drawButton = document.getElementById("draw-button");
 let waitingForWheelClick = false;
-let turn = 0;
-drawButtonMode = "draw"; // Modes: "draw", "wheel", "endgame"
+//let turn = 0;
+let cards = [...DECK];
+let drawButtonMode = "draw"; // Modes: "draw", "wheel", "endgame"
+let wheelEngine = null;
 
 drawButton.addEventListener("click", async () => {
     if (drawButtonMode === "draw") {
@@ -83,6 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initGame() {
+    // Initialize wheel engine
+    const canvas = document.getElementById("wheel");
+    if (canvas) {
+        wheelEngine = new WheelEngine(canvas);
+        wheelEngine.debugMode = WHEEL_CONFIG.debug.enabled;
+    }
+
+    // Load player names from storage
+    names = getPlayersFromStorage();
+
     hideWheel();
     shuffleDeck();
     displayPlayers();
@@ -169,10 +181,33 @@ function waitForWheelButtonClick() {
 }
 
 async function spinWheelForRandom() {
+    if (!wheelEngine) {
+        console.error('⚠ Wheel engine not initialized');
+        return null;
+    }
+
+    // Load player names excluding current player
+    const wheelEntries = names.filter((_, idx) => idx !== (turn % names.length));
+    
+    if (wheelEntries.length === 0) {
+        console.warn('⚠ No other players available for wheel spin');
+        return names[turn % names.length];
+    }
+
+    // Update wheel with weighted entries (equal weight by default)
+    wheelEngine.updateEntries(
+        wheelEntries.map(name => new WeightedEntry(name, 1))
+    );
+    wheelEngine.draw();
+
     showWheel();
-    let winner = await getWheelWinner();
+    
+    // Spin the wheel
+    const winner = await wheelEngine.spin();
+    
     hideWheel();
-    return winner;
+    
+    return winner ? winner.name : null;
 }
 
 function endGame() {
