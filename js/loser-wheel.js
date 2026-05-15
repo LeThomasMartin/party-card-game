@@ -3,7 +3,7 @@ const CHALLENGES = [
     { short: "Boit en ta**ck", text: "Finis tout les verre des autres joueurs (pas les tiens)", category: "drink" },
     { short: "Petit snack", text: "Avale un oeuf cru avec la coquille ", category: "food" },
     { short: "Aime tu les épices?", text: "Mange le truc le plus épicé de la maison", category: "food" },
-    { short: "Tapette ", text: "Rien tu t sauvé du défi", category: "social" },
+    { short: "Tapette ", text: "Rien tu t sauvé du défi, mais .... t fif en esti", category: "social" },
     { short: "Mon pere y est riche en...", text: "Donne moi 20 pissse parceque anyway mon pere est riche en tabarnack", category: "social" },
     { short: "Tequila heineken", text: "Tequila heineken pas le temps de niaiser, prend un shot(tequilla si possible) et une biere(heineken si possible)", category: "drink" },
 ];

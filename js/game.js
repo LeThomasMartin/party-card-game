@@ -9,7 +9,7 @@ const DECK = [
     { id: 3, text: "Drinking race !", category: "boisson" },
     { id: 4, text: "Prend un SHOT!", category: "boisson" },
     { id: 10, text: "[player] prend une gorgée", category: "boisson" },
-    /*{ id: 5, text: "Donne deux gorgées", category: "boisson" },
+    { id: 5, text: "Donne deux gorgées", category: "boisson" },
     { id: 6, text: "Ta gauche et ta droite boivent", category: "boisson" },
     { id: 7, text: "Celui qui a le moins bu termine sa boisson", category: "boisson" },
     { id: 8, text: "finis ta boisson !", category: "boisson" },
@@ -59,7 +59,6 @@ const DECK = [
     { id: 47, text: "Rebrasse le deck au complet 😱", category: "divers", effect: "shuffleDeck" },
     //{ id: 48, text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
     
-    */
    
 ];
 
