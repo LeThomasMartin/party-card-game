@@ -32,6 +32,9 @@
                 <div class="players-list" id="players">
                     <label>Players:</label>
                     <ul id="players-list">
+                        {% for player in players %}
+                            <li>{{ player }}</li>
+                        {% endfor %}
                     </ul>
                     <!-- Players will be added here dynamically -->
                 </div>

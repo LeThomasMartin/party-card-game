@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template
-from flask_socketio import SocketIO, emit, join_room
+from flask_socketio import SocketIO, emit, join_room, leave_room, rooms
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -31,7 +31,8 @@ def lobby_page(lobby_id):
     return render_template(
         "lobby.html",
         lobby_id=lobby_id,
-        host_name=lobby["host"]
+        host_name=lobby["host"],
+        players=lobby["players"]
     )
 
 
@@ -55,7 +56,8 @@ def create_lobby(data):
     }
 
     print("Lobby created:", lobby_id, "by", player_name)
-
+    join_room(lobby_id)
+    print("CLIENT ROOMS:", rooms())
     emit("lobby_created", {
         "lobby_id": lobby_id
     })
@@ -86,13 +88,15 @@ def join_lobby(data):
 
     emit("lobby_joined", {
         "lobby_id": lobby_id,
+        "players": lobby["players"]
     },)
 
     join_room(lobby_id)
+    print("CLIENT ROOMS:", rooms())
 
     emit("update_players", {
         "players": lobby["players"]
-    }, room=lobby_id)
+    }, broadcast=True)
 
 
 def generate_lobby_id():
