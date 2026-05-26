@@ -200,6 +200,44 @@ input[type="text"]::placeholder {
     width: 100%;
 }
 
+.lobby-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+
+.lobby-controls button {
+    flex: 1;
+    min-width: 150px;
+    max-width: 250px;
+}
+
+#lobby-id-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 35px;
+    padding: 20px;
+    background-color: rgba(99, 102, 241, 0.05);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+#lobby-id-container label {
+    margin-bottom: 0;
+}
+
+#lobby-id-container input {
+    width: 100%;
+}
+
+#lobby-id-container button {
+    width: 100%;
+    max-width: none;
+}
+
 /* ===========================
    BUTTONS
    =========================== */

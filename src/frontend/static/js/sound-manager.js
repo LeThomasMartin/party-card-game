@@ -6,7 +6,7 @@
 class SoundManager {
   constructor(config = {}) {
     this.config = {
-      tickSoundPath: 'sounds/thick.mp3',
+      tickSoundPath: '/static/sounds/thick.mp3',
       tickVolume: 0.3,
       speedThreshold: 0.01,
       preloadOnInit: true,

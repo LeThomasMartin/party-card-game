@@ -345,5 +345,5 @@ function resetGame() {
 function acceuil(){
     clearAllPlayers();
     turn = 0;
-    window.location.href = "index.html";
+    window.location.href = "/";
 }

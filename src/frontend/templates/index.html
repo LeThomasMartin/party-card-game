@@ -13,23 +13,20 @@
     <main>
         <form class="form">
             <div class="player-controls">
-                <label for="amountplayers">Number of Players:</label>
-                <div class="player-controls-inputs">
-                    <button type="button" id="decrease-players">−</button>
-                    <input type="number" id="amountplayers" name="players" required placeholder="Enter a number" max="10" min="1">
-                    <button type="button" id="increase-players">+</button>
-                </div>
+                <label for="player-name">Your Name:</label>
+                <input type="text" id="player-name" name="player-name" required placeholder="Enter your name" maxlength="11">
+                <label for="lobby-id">Lobby ID:</label>
+                <input type="text" id="lobby-id" name="lobby-id" placeholder="Enter lobby ID">
             </div>
 
-            <div class="player-names" id="players-names">
+            <div class="lobby-controls">
+                <button type="button" id="create-lobby">Create Lobby</button>
+                <button type="button" id="join-lobby">Join Lobby</button>
             </div>
-
-            <form action="{{ url_for('gamePage') }}" method="GET">
-                <button type="submit">Start Playing</button>
-            </form>
         </form>
     </main>
-
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/server.js') }}"></script>
     <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>

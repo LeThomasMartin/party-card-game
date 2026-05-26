@@ -3,9 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The crazy party game - Game</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/animations.css">
-    <link rel="stylesheet" type="text/css" href="css/wheel.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animations.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/wheel.css') }}">
 </head>
 <body>
     <h1>The crazy party game</h1>
@@ -39,11 +39,11 @@
         </div>
     </div>
 
-    <script src="js/utils.js"></script>
-    <script src="js/wheel-config.js"></script>
-    <script src="js/sound-manager.js"></script>
-    <script src="js/wheel.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/loser-wheel.js"></script>
+    <script src="{{ url_for('static', filename='js/wheel-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sound-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wheel.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/loser-wheel.js') }}"></script>
 </body>
 </html>

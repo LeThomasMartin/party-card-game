@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby - The crazy party game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+
+<body>
+    <h1>The crazy party game</h1>
+    <h4>Waiting room</h4>
+    <main>
+        <div class="lobby-container">
+            <!-- Lobby Info -->
+            <div class="lobby-info">
+                <div class="lobby-id-display">
+                    <label>Lobby ID: {{ lobby_id }}</label>
+                    <p id="lobby-id-text"></p>
+                    <button type="button" id="copy-lobby-id">Copy ID</button>
+                </div>
+                <div class="host-indicator" id="host-indicator" style="display: none;">
+                    <span class="badge">Host</span>
+                </div>
+            </div>
+
+            <!-- Players List -->
+            <div class="players-section">
+                <h2>Players in Lobby</h2>
+                <label>Host: {{ host_name }}</label>
+                <div class="players-list" id="players">
+                    <label>Players:</label>
+                    <ul id="players-list">
+                    </ul>
+                    <!-- Players will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Start Game Button (Host only) -->
+            <div class="lobby-actions" id="lobby-actions">
+                <button type="button" id="start-game-btn" style="display: none;">Start Game</button>
+                <button type="button" id="leave-lobby-btn">Leave Lobby</button>
+            </div>
+
+            <!-- Waiting Message -->
+            <div class="waiting-message" id="waiting-message">
+                <p>Waiting for host to start the game...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/server.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lobby.js') }}"></script>
+</body>
+</html>
