@@ -17,8 +17,6 @@
             <div class="lobby-info">
                 <div class="lobby-id-display">
                     <label>Lobby ID: {{ lobby_id }}</label>
-                    <p id="lobby-id-text"></p>
-                    <button type="button" id="copy-lobby-id">Copy ID</button>
                 </div>
                 <div class="host-indicator" id="host-indicator" style="display: none;">
                     <span class="badge">Host</span>
@@ -28,26 +26,24 @@
             <!-- Players List -->
             <div class="players-section">
                 <h2>Players in Lobby</h2>
-                <label>Host: {{ host_name }}</label>
+                <label id="host-info">Host: </label>
                 <div class="players-list" id="players">
                     <label>Players:</label>
                     <ul id="players-list">
-                        {% for player in players %}
-                            <li>{{ player }}</li>
-                        {% endfor %}
+                            <li></li>
                     </ul>
-                    <!-- Players will be added here dynamically -->
                 </div>
             </div>
 
-            <!-- Start Game Button (Host only) -->
             <div class="lobby-actions" id="lobby-actions">
+                <!-- Start Game Button (Host only) -->
                 <button type="button" id="start-game-btn" style="display: none;">Start Game</button>
                 <button type="button" id="leave-lobby-btn">Leave Lobby</button>
             </div>
 
             <!-- Waiting Message -->
             <div class="waiting-message" id="waiting-message">
+                <button type="button" id="start-game-btn" style="display: none;">Start Game</button>
                 <p>Waiting for host to start the game...</p>
             </div>
         </div>

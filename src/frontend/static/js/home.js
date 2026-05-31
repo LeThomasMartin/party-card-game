@@ -11,27 +11,44 @@ createLobbyBtn.addEventListener("click", createLobby);
 joinLobbyBtn.addEventListener("click", joinLobby);
 
 
-function createLobby() {
+async function createLobby() {
     const playerName = playerNameInput.value.trim();
     if (!playerName) {
         alert("Please enter your name");
         return;
     }
-    socket.emit("create_lobby", {
-    playerName: playerName
-    });
+    const response = await fetch(`/api/lobby/create`);
+    const data = await response.json();
+    sessionStorage.setItem("playerName", playerName);
+    window.location.href = "/lobby/" + data.room;
 }
 
-function joinLobby() {
+ async function joinLobby() {
     const playerName = playerNameInput.value.trim();
-    const lobbyId = lobbyIdInput.value.trim();
+    const room = lobbyIdInput.value.trim();
 
-    if (!playerName || !lobbyId) {
+    if (!playerName || !room) {
         alert("Please enter your name and lobby ID");
         return;
     }
-    socket.emit("join_lobby", {
-        playerName: playerName,
-        lobbyId: lobbyId
-    });
+    if (!(await fetch(`/lobby/${room}`, { method: "GET"})).ok) {
+        console.log("Lobby introuvable");
+        alert("Lobby not found");
+        return;
+    }
+    const res = await fetch(`/api/lobby/${room}/players`);
+    const data = await res.json();
+    if (!res.ok || data.error) {
+        console.error("Error fetching players:", data.error || "Unknown error");
+        alert("Error checking lobby");
+        return;
+    }
+
+    if (data.players && Array.isArray(data.players) && data.players.includes(playerName)) {
+        console.log("Nom déjà pris dans ce lobby");
+        alert("Name already taken in this lobby");
+        return;
+    }
+    sessionStorage.setItem("playerName", playerName);
+    window.location.href = "/lobby/" + room;
 }
