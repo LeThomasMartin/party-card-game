@@ -29,17 +29,17 @@ def join_lobby(data):
         emit("error", {"message": "Game already started"})
         return
 
-    if player_name in lobby["players"]:
+    if player_name in lobby["players"].values():
         emit("error", {"message": "Player name already taken"})
         return
 
     sid = request.sid
     lobby["players"][sid] = player_name
     join_room(room)
-
+    
     if not lobby["host"]:
         lobby["host"] = sid
-
+    print(f"Current players in lobby {room}: {list(lobby['players'].values())}")  # Debug log
     emit("update_players", {
     "room": room,
     "host": lobby["players"][lobby["host"]],
@@ -64,15 +64,18 @@ def leave_lobby(data):
 
     leave_room(room)
 
+    host_name = lobby["players"].get(lobby["host"]) if lobby["host"] else None
+
     emit("update_players", {
         "room": room,
-        "host": lobby["players"][lobby["host"]],
+        "host": host_name,
         "players": list(lobby["players"].values())
     }, room=room)
 
 @socketio.on("disconnect")
-def on_disconnect():
-    sid = request.sid
+def on_disconnect(sid=None):
+    if sid is None:
+        sid = request.sid
 
     for room, lobby in lobbies.items():
         if sid not in lobby["players"]:
@@ -81,57 +84,13 @@ def on_disconnect():
         if sid == lobby["host"]:
             lobby["host"] = next(iter(lobby["players"]), None)
 
+        host_name = lobby["players"].get(lobby["host"]) if lobby["host"] else None
+
         emit("update_players", {
             "room": room,
-            "host": lobby["players"][lobby["host"]],
+            "host": host_name,
             "players": list(lobby["players"].values())
         }, room=room)
 
 def generate_room_id():
     return ''.join(str(random.randint(0, 9)) for _ in range(5))
-
-
-#=========================
-#       Requests(api)
-#=========================
-
-from flask import jsonify
-from src.backend.app import app
-
-@app.route("/api/lobby/<room>/players")
-def get_players(room):
-    lobby = lobbies.get(room)
-
-    if not lobby:
-        return jsonify({
-            "error": "Lobby not found"
-        }), 404
-
-    return jsonify({
-        "players": list(lobby["players"].values()),
-        "player_count": len(lobby["players"])
-    })
-
-@app.route("/api/lobby/<room>/host")
-def get_host(room):
-    lobby = lobbies.get(room)
-
-    if not lobby:
-        return jsonify({
-            "error": "Lobby not found"
-        }), 404
-
-    return jsonify({
-        "host": lobby["players"][lobby["host"]]
-    })
-
-@app.route("/api/lobby/create")
-def create_lobby():
-    room = generate_room_id()
-    lobbies[room] = {
-        "host": None,
-        "players": {},
-        "state": "waiting"
-    }
-
-    return jsonify({"room": room})

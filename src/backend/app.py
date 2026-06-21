@@ -13,16 +13,13 @@ app = Flask(
 
 socketio = SocketIO(app)
 
-# IMPORTANT
 from src.backend import lobby
+from src.backend import api
+from src.backend import game
 
 @app.route("/")
 def mainPage():
     return render_template("index.html")
-
-@app.route("/game")
-def gamePage():
-    return render_template("game.html")
 
 @app.route("/lobby/<lobby_id>")
 def lobby_page(lobby_id):
@@ -43,8 +40,6 @@ def game_lobby(lobby_id):
         return "Lobby not found", 404
 
     return render_template(
-        "game_lobby.html",
+        "game.html",
         lobby_id=lobby_id,
-        host_name=lobby_data["host"],
-        players=lobby_data["players"],
     )

@@ -1,77 +1,18 @@
-// Deck de cartes pour le jeu
-const DECK = [
-    
-    { id: 37, text: "[player] peux donner de 1 à 10 gorgées à [random]", category: "défi" }, // Pas de base
- 
-    // BOISSON
-    { id: 1, text: "Les gars boivent", category: "boisson" },
-    { id: 2, text: "Les filles boivent", category: "boisson" },
-    { id: 3, text: "Drinking race !", category: "boisson" },
-    { id: 4, text: "Prend un SHOT!", category: "boisson" },
-    { id: 10, text: "[player] prend une gorgée", category: "boisson" },
-    { id: 5, text: "Donne deux gorgées", category: "boisson" },
-    { id: 6, text: "Ta gauche et ta droite boivent", category: "boisson" },
-    { id: 7, text: "Celui qui a le moins bu termine sa boisson", category: "boisson" },
-    { id: 8, text: "finis ta boisson !", category: "boisson" },
-    { id: 9, text: "Gorgée générale !", category: "boisson" },
-    { id: 11, text: "[player] donne 2 shots", category: "boisson" },
-    { id: 12, text: "Ceux en couple boivent", category: "boisson" },
-    
-    // PARLER
-    { id: 13, text: "Quel est le truc le plus BDSM que tu as fait ?", category: "parler" },
-    { id: 14, text: "Raconte ta pire annectode de sexe", category: "parler" },
-    { id: 15, text: "Selon toi... qui est le moins bien habillé dans la pièce ?", category: "parler" },
-    { id: 16, text: "Si tu devais changer de vie avec une personne dans la piece ce serait qui ?", category: "parler" },
-    { id: 17, text: "Excepté ton partenaire avec qui sortirais-tu dans la pièce ?", category: "parler" },
-    { id: 18, text: "[player] quel est ton plus grand fantasme ?", category: "parler" },
-    { id: 19, text: "Avec qui voudrais-tu le moins être en couple dans la pièce ?", category: "parler" },
-    { id: 20, text: "[player] pose la question de ton choix à la personnne de ton choix", category: "parler" },
-    { id: 21, text: "Qui appellerais tu dans la pièce pour t'aider à cacher un corps ?", category: "parler" },
-    { id: 22, text: "Quelle est ta pire perte d'argent ?", category: "parler" },
-    { id: 23, text: "À quand remonte ton dernier orgasme ?", category: "parler" },
-    { id: 24, text: "Quel est le truc le plus illégal que tu as fait ?", category: "parler" }, // Pas de base
-
-    // DÉFI
-    { id: 25, text: "Change un bout de vêtement avec la personne en face", category: "défi" },
-    { id: 26, text: "Avale un oeuf cru", category: "défi" },
-    { id: 27, text: "La personne de ton choix te fait un belly shot", category: "défi" },
-    { id: 28, text: "Drink un shot ! mystère", category: "défi" },
-    { id: 29, text: "Laisse les gens texter à une personne avec ton cell (pas le droit de suprimmer avant demain)", category: "défi" },
-    { id: 30, text: "Sort dehors deux bonnes minutes ", category: "défi" },
-    { id: 31, text: "Laisse les gens fouiller dans ton cell 2 bonnes minutes", category: "défi" },
-    { id: 32, text: "Kiss ton partenaire en ayant une gorgée (Transfert la)", category: "défi" },
-    { id: 33, text: "Fais un tour de la bâtisse. Pas le droit de mettre un manteau ou des bottes", category: "défi" },
-    { id: 34, text: "Enlève un bout de vêtement", category: "défi" },
-    { id: 35, text: "Fait 15 push-up (les filles ont le droit au genoux) 💪", category: "défi" },
-    { id: 36, text: "Appel le dernier numéro a qui tu as parlé. Pas le droit de racrocher avant 1 minutes (s'il répond pas passe au suivant)", category: "défi" },
-    { id: 37, text: "[player] doit faire un massage à [random]", category: "défi" }, // Pas de base
-    
-    // DIVERS
-    { id: 38, text: "Votons ! La personne qui déçoit le plus ses parents boit", category: "divers" },
-    { id: 39, text: "Votons ! Le plus résistant à l'alcool finit sa boisson", category: "divers" },
-    { id: 40, text: "Ont prend un selfi tout le monde ensemble", category: "divers" },
-    { id: 41, text: "Jeu de la carte bisou", category: "divers" },
-    { id: 42, text: "Le plus suseceptible... De juger les gens selon leur signe astrologique", category: "divers" },
-    { id: 43, text: "Tout le monde change de place", category: "divers" },
-    { id: 44, text: "Votons ! Le plus saoul donne sa consomation", category: "divers" },
-    { id: 45, text: "Le plus susceptible d'avoir un nom pour son entre jambes boit", category: "divers" },
-    { id: 46, text: "tout le monde doit répondre à la 1er story", category: "divers" },
-    { id: 47, text: "Rebrasse le deck au complet 😱", category: "divers", effect: "shuffleDeck" },
-    //{ id: 48, text: "Refais jouer une carte déjà jouée et choisie la victime", category: "divers" },
-    
-   
-];
-
 let drawButton = document.getElementById("draw-button");
 let waitingForWheelClick = false;
-//let turn = 0;
-let cards = [...DECK];
 let drawButtonMode = "draw"; // Modes: "draw", "wheel", "endgame"
 let wheelEngine = null;
+const room = window.location.pathname.split("/").pop();
+let players_names = [];
+let players_sids = [];
+let active_player_sid = null;
+let active_player_name = null;
+let previous_active_player = null;
 
 drawButton.addEventListener("click", async () => {
     if (drawButtonMode === "draw") {
-        await drawCard();
+        socket.emit("draw_card", {"room": room});
+        socket.emit("next_player", {"room": room});
     } else if (drawButtonMode === "wheel") {
         // This case is handled in changeCardText function, so we just ignore clicks here
     } else if (drawButtonMode === "endgame") {
@@ -81,10 +22,10 @@ drawButton.addEventListener("click", async () => {
 
 // Logique de la page du jeu
 document.addEventListener("DOMContentLoaded", () => {
-    initGame();
+    socket.emit("init_game", {"room": room});
 });
 
-function initGame() {
+socket.on("game_initialized", (data) => {
     // Initialize wheel engine
     const canvas = document.getElementById("wheel");
     if (canvas) {
@@ -92,47 +33,42 @@ function initGame() {
         wheelEngine.debugMode = WHEEL_CONFIG.debug.enabled;
     }
 
-    // Load player names from storage
-    names = getPlayersFromStorage();
 
     hideWheel();
-    shuffleDeck();
+    active_player_sid = data.active_player.sid;
+    active_player_name = data.active_player.name;
+    players_names = data.players_names;
+    players_sids = data.players_sids;
     displayPlayers();
-    drawCard();
-}
+    socket.emit("draw_card", {"room": room});
+    playerTurn(active_player_sid);
+});
 
-async function drawCard() {
-    lastPlayerTurn();
-    playerTurn();
-    
+socket.on("card_drawn", async (data) => {
+    drawCard(data.card);
+});
+
+async function drawCard(card) {
+    // Player turn is managed by backend via player_changed event
     let cardDisplay = document.querySelector(".card-display");
-    
-    if (cards.length === 0) {
-        endGame();
-        return;
-    }
-    
-    let randomIndex = Math.floor(Math.random() * cards.length);
-    let card = cards[randomIndex];
-    
+
     const hasRandom = card.text.includes("[random]");
     let displayedText = card.text;
-    
+
     if (displayedText.includes("[player]")) {
-        let playerName = names[turn % names.length];
-        displayedText = displayedText.replace("[player]", playerName);
+        displayedText = displayedText.replace("[player]", active_player_name);
     }
-    
+
     if (hasRandom) {
         displayedText = displayedText.replace("[random]", "...");
     }
-    
+
     cardDisplay.className = "card-display category-" + card.category;
     cardDisplay.innerHTML = `
     <div class="card-category">${card.category[0].toUpperCase() + card.category.slice(1)}</div>
     <div class="card-text">${displayedText}</div>
     `;
-    
+
     if (hasRandom) {
         const finalText = await changeCardText(displayedText);
         
@@ -141,12 +77,11 @@ async function drawCard() {
         <div class="card-text">${finalText}</div>
         `;
     }
-    
+
     if (card.effect) {
         handleCardEffect(card);
     }
-    
-    cards.splice(randomIndex, 1);
+
     turn++;
 }
 
@@ -187,11 +122,11 @@ async function spinWheelForRandom() {
     }
 
     // Load player names excluding current player
-    const wheelEntries = names.filter((_, idx) => idx !== (turn % names.length));
+    const wheelEntries = players_names.filter((_, idx) => idx !== (turn % players_names.length));
     
     if (wheelEntries.length === 0) {
         console.warn('⚠ No other players available for wheel spin');
-        return names[turn % names.length];
+        return players_names[turn % players_names.length];
     }
 
     // Update wheel with weighted entries (equal weight by default)
@@ -212,8 +147,8 @@ async function spinWheelForRandom() {
 
 function endGame() {
         // Remove active state from all players
-        for (let i = 0; i < names.length; i++) {
-            let playerElement = document.getElementById("player" + i);
+        for (let i = 0; i < players_sids.length; i++) {
+            let playerElement = document.getElementById(players_sids[i]);
             if (playerElement) {
                 playerElement.classList.remove("active");
             }
@@ -266,30 +201,46 @@ function endGameEffect() {
     }
 }
 
-function playerTurn(){
-    let playerIndex = turn % names.length;
-    let playerElement = document.getElementById("player" + playerIndex);
+socket.on("player_changed", (data) => {
+    previous_active_player = active_player_sid;
+    lastPlayerTurn();
+    active_player_sid = data.active_player.sid;
+    active_player_name = data.active_player.name;
+    playerTurn(active_player_sid);
+});
+
+function playerTurn(activePlayer){
+    if (activePlayer === null || activePlayer === undefined) {
+        return;
+    }
+    let playerElement = document.getElementById(activePlayer);
     if(playerElement) {
         playerElement.classList.add("active"); 
     }
 }
 
 function lastPlayerTurn(){
-    let lastPlayerIndex = (turn - 1 + names.length) % names.length;
-    let lastPlayerElement = document.getElementById("player" + lastPlayerIndex);
-    if(lastPlayerElement) {
-        lastPlayerElement.classList.remove("active"); 
+    if (previous_active_player !== null && previous_active_player !== undefined) {
+        let lastPlayerElement = document.getElementById(previous_active_player);
+        if(lastPlayerElement) {
+            lastPlayerElement.classList.remove("active"); 
+        }
     }
 }
 
 function displayPlayers() {
     let container = document.getElementById("players-info");
-    for(let i = 0; i < names.length; i++) {
-        let playerElement = document.createElement("div");
-        playerElement.className = "player-badge";
-        playerElement.textContent = names[i];
-        playerElement.id = "player" + i;
-        container.appendChild(playerElement);
+    if(players_names.length == players_sids.length) {
+        for(let i = 0; i < players_names.length; i++) {
+            let playerElement = document.createElement("div");
+            playerElement.className = "player-badge";
+            playerElement.textContent = players_names[i];
+            playerElement.id = players_sids[i];
+            container.appendChild(playerElement);
+        }
+    }
+    else {
+        console.error("Mismatch between players and player SIDs");
     }
 }
 
@@ -297,15 +248,14 @@ function handleCardEffect(card) {
 
     switch(card.effect) {
         case "shuffleDeck":
-            shuffleDeck();
-            cards = cards.filter(c => c.id !== card.id);
+            socket.emit("reshuffle_deck", {"room": room});
             break;
         default:
             break;
     }
 }
 
-function shuffleDeck() {
+socket.on("reshuffled_deck", () => {
     let cardDisplay = document.querySelector(".card-display");
     
     // Apply card flip animation
@@ -320,13 +270,10 @@ function shuffleDeck() {
     cardDisplay.addEventListener('animationend', () => {
         cardDisplay.style.animation = '';
     }, { once: true });
-    
-    // Reshuffle the deck
-    cards = [...DECK];
-}
+});
 
 function resetGame() {
-    shuffleDeck();
+    socket.emit("reshuffle_deck", {"room": room});
     turn = 0; // Réinitialiser le tour
     if (drawButton) {
         drawButton.textContent = "Prochaine Carte";
@@ -339,7 +286,7 @@ function resetGame() {
         existingOverlay.remove();
     }
     
-    drawCard(); // Afficher la première carte
+    socket.emit("reset_game", {"room": room});
 }
 
 function acceuil(){
