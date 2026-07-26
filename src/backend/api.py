@@ -57,3 +57,17 @@ def get_deck(room):
     return jsonify({
         "deck": random.shuffle(lobby_data["deck"])
     })
+
+@app.route("/api/lobby/<room>/can_draw_card/<player_sid>")
+def can_draw_card(room, player_sid):
+    lobby_data = lobby.lobbies.get(room)
+
+    if not lobby_data:
+        return jsonify({
+            "error": "Lobby not found"
+        }), 404
+
+    if lobby_data["active_player"] and lobby_data["active_player"]["sid"] == player_sid:
+        return jsonify({"can_draw": True})
+    else:
+        return jsonify({"can_draw": False})

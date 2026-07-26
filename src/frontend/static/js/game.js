@@ -11,8 +11,10 @@ let previous_active_player = null;
 
 drawButton.addEventListener("click", async () => {
     if (drawButtonMode === "draw") {
-        socket.emit("draw_card", {"room": room});
-        socket.emit("next_player", {"room": room});
+        if (canDrawCard()) {
+            socket.emit("draw_card", {"room": room});
+            socket.emit("next_player", {"room": room});
+        }
     } else if (drawButtonMode === "wheel") {
         // This case is handled in changeCardText function, so we just ignore clicks here
     } else if (drawButtonMode === "endgame") {
@@ -41,7 +43,7 @@ socket.on("game_initialized", (data) => {
     players_sids = data.players_sids;
     displayPlayers();
     socket.emit("draw_card", {"room": room});
-    playerTurn(active_player_sid);
+    playerTurn(active_player_name);
 });
 
 socket.on("card_drawn", async (data) => {
@@ -83,6 +85,15 @@ async function drawCard(card) {
     }
 
     turn++;
+}
+
+function getPlayerBadgeId(playerName) {
+    return `player-${encodeURIComponent(playerName || "")}`;
+}
+
+function canDrawCard() {
+    const currentPlayerName = sessionStorage.getItem("playerName");
+    return active_player_name === currentPlayerName || active_player_sid === socket.id;
 }
 
 async function changeCardText(text) {
@@ -147,8 +158,8 @@ async function spinWheelForRandom() {
 
 function endGame() {
         // Remove active state from all players
-        for (let i = 0; i < players_sids.length; i++) {
-            let playerElement = document.getElementById(players_sids[i]);
+        for (let i = 0; i < players_names.length; i++) {
+            let playerElement = document.getElementById(getPlayerBadgeId(players_names[i]));
             if (playerElement) {
                 playerElement.classList.remove("active");
             }
@@ -202,28 +213,30 @@ function endGameEffect() {
 }
 
 socket.on("player_changed", (data) => {
-    previous_active_player = active_player_sid;
+    previous_active_player = active_player_name;
     lastPlayerTurn();
     active_player_sid = data.active_player.sid;
     active_player_name = data.active_player.name;
-    playerTurn(active_player_sid);
+    playerTurn(active_player_name);
 });
 
 function playerTurn(activePlayer){
     if (activePlayer === null || activePlayer === undefined) {
         return;
     }
-    let playerElement = document.getElementById(activePlayer);
+
+    const playerName = typeof activePlayer === "string" ? activePlayer : activePlayer.name;
+    const playerElement = document.getElementById(getPlayerBadgeId(playerName));
     if(playerElement) {
-        playerElement.classList.add("active"); 
+        playerElement.classList.add("active");
     }
 }
 
 function lastPlayerTurn(){
     if (previous_active_player !== null && previous_active_player !== undefined) {
-        let lastPlayerElement = document.getElementById(previous_active_player);
+        const lastPlayerElement = document.getElementById(getPlayerBadgeId(previous_active_player));
         if(lastPlayerElement) {
-            lastPlayerElement.classList.remove("active"); 
+            lastPlayerElement.classList.remove("active");
         }
     }
 }
@@ -235,7 +248,7 @@ function displayPlayers() {
             let playerElement = document.createElement("div");
             playerElement.className = "player-badge";
             playerElement.textContent = players_names[i];
-            playerElement.id = players_sids[i];
+            playerElement.id = getPlayerBadgeId(players_names[i]);
             container.appendChild(playerElement);
         }
     }

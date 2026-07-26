@@ -62,6 +62,7 @@ def next_player(data):
     next_sid = player_sids[next_index]
     lobby_data["active_player"] = {"sid": next_sid, "name": lobby_data["players"][next_sid]}
 
+
     emit("player_changed", {"room": room, "active_player": lobby_data["active_player"]}, room=room)
 
 @socketio.on("draw_card")
@@ -86,7 +87,9 @@ def draw_card(data):
     lobby_data["turn"] += 1
     card = random.choice(lobby_data["deck"])
     lobby_data["deck"].remove(card)
-    print(f"Card drawn: {card['text']} (ID: {card['id']})")  # Debug log
+    
+    print(f"Active player: {lobby_data['active_player']['name']} drew card: {card}")  # Debug log
+
     emit("card_drawn", {"card": card, "turn": lobby_data["turn"]}, room=room)
 
 @socketio.on("reshuffle_deck")
