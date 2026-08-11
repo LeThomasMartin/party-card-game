@@ -32,6 +32,18 @@ def lobby_page(lobby_id):
         "lobby.html",
         lobby_id=lobby_id,)
 
+@app.route("/lobby/cardCreation/<lobby_id>")
+def card_creation(lobby_id):
+    lobby_data = lobby.lobbies.get(lobby_id)
+
+    if not lobby_data:
+        return "Lobby not found", 404
+
+    return render_template(
+        "card_creation.html",
+        lobby_id=lobby_id,
+    )
+
 @app.route("/lobby/game/<lobby_id>")
 def game_lobby(lobby_id):
     lobby_data = lobby.lobbies.get(lobby_id)

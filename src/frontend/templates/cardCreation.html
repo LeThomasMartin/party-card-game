@@ -1,0 +1,30 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The crazy party game - Création de cartes</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+<body data-lobby-id="{{ lobby_id }}">
+    <h1>The crazy party game - Création de cartes</h1>
+    <main>
+        <div class="card-creation-container">
+            <form id="card-form">
+                <label for="card-title">Titre de la carte:</label>
+                <input type="text" id="card-title" name="title" required>
+
+                <label for="card-description">Description de la carte:</label>
+                <textarea id="card-description" name="description" required></textarea>
+
+                <label for="card-category">Type de carte:</label>
+
+                <button type="submit">Créer la carte</button>
+            </form>
+            <p id="form-feedback" aria-live="polite"></p>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/card-creation.js') }}"></script>
+</body>
+</html>

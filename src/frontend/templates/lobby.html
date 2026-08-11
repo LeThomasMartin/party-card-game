@@ -36,8 +36,20 @@
             </div>
 
             <div class="lobby-actions" id="lobby-actions">
-                <button type="button" id="start-game-btn" class="primary-btn" style="display: none;">Démarrer la partie</button>
-                <button type="button" id="leave-lobby-btn" class="secondary-btn">Quitter le lobby</button>
+                <button type="button" id="start-game-btn" class="primary-btn" style="display: none;">
+                    Démarrer la partie
+                </button>
+
+                <div class="card-creation-container" style="display: none;" id="card-creation-container">
+                    <label for="card-creation-toggle">
+                        Activer la création personnalisée de cartes
+                    </label>
+                    <input type="checkbox" id="card-creation-toggle">
+                </div>
+
+                <button type="button" id="leave-lobby-btn" class="secondary-btn">
+                    Quitter le lobby
+                </button>
             </div>
 
             <div class="waiting-message" id="waiting-message">

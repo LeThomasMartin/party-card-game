@@ -1,5 +1,6 @@
 const playersList = document.getElementById("players-list");
 const startGameBtn = document.getElementById("start-game-btn");
+const cardCreation = document.getElementById("card-creation-container");
 const leaveLobbyBtn = document.getElementById("leave-lobby-btn");
 const hostIndicator = document.getElementById("host-indicator");
 const lobbyId = window.location.pathname.split("/").pop();
@@ -27,7 +28,7 @@ socket.on("update_players", (data) => {
 function updateHostInfo(hostName) {
     const hostInfo = document.getElementById("host-info");
     hostInfo.textContent = "Hôte : " + (hostName || "Aucun hôte");
-    displayStartGameButton(hostName);
+    displayHostOptions(hostName);
 }
 
 function updatePlayersList(players) {
@@ -99,15 +100,17 @@ async function getHostName(lobbyId) {
     return data.host;
 }
 
-async function displayStartGameButton(hostName) {
+async function displayHostOptions(hostName) {
     const isHost = hostName === sessionStorage.getItem("playerName");
     if (isHost) {
         startGameBtn.style.display = "block";
+        cardCreation.style.display = "flex";
         if (hostIndicator) {
             hostIndicator.style.display = "block";
         }
     } else {
         startGameBtn.style.display = "none";
+        cardCreation.style.display = "none";
         if (hostIndicator) {
             hostIndicator.style.display = "none";
         }
@@ -120,11 +123,10 @@ function leaveLobby() {
 }
 
 function startGame() {
-    socket.emit("start_game", { room: lobbyId });
+    socket.emit("card_creation", { room: lobbyId });
     window.location.href = "/lobby/game/" + lobbyId;
 }
 
-socket.on("game_started", (data) => {
-    console.log("Game started, redirecting to game page...");
-    window.location.href = "/lobby/game/" + data.room;
+socket.on("create_cards", (data) => {
+    window.location.href = "/lobby/cardCreation/" + data.room;
 });

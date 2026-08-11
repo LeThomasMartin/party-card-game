@@ -575,6 +575,12 @@ button#increase-players:active {
     box-shadow: 0 15px 35px rgba(100, 116, 139, 0.4);
 }
 
+.card-creation-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 /* ===========================
    GAME CONTAINER
    =========================== */

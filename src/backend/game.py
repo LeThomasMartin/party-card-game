@@ -5,6 +5,22 @@ from flask import request
 from src.backend import lobby
 import random
 
+@socketio.on("card_creation")
+def card_creation(data):
+    room = data.get("room")
+    join_room(room)
+    lobby_data = lobby.lobbies.get(room)
+        
+    if not lobby_data:
+        emit("error", {"message": "Lobby not found"})
+        return
+
+    if lobby_data["state"] != "card_creation":
+        emit("error", {"message": "Game already started"})
+        return
+
+    emit("create_cards", {"room": room}, room=room)
+
 @socketio.on("start_game")
 def start_game(data):
     room = data.get("room")
@@ -15,7 +31,7 @@ def start_game(data):
         emit("error", {"message": "Lobby not found"})
         return
 
-    if lobby_data["state"] != "waiting":
+    if lobby_data["state"] != "waiting" and lobby_data["state"] != "card_creation":
         emit("error", {"message": "Game already started"})
         return
     lobby_data["state"] = "playing"
