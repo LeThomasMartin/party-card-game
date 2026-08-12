@@ -123,10 +123,20 @@ function leaveLobby() {
 }
 
 function startGame() {
-    socket.emit("card_creation", { room: lobbyId });
-    window.location.href = "/lobby/game/" + lobbyId;
+    const checkBox = document.getElementById("card-creation-toggle");
+    if (checkBox.checked === true) {
+        socket.emit("card_creation", { room: lobbyId });
+    }
+    else {
+        socket.emit("start_game", { room: lobbyId });
+        window.location.href = "/lobby/game/" + lobbyId;
+    }
 }
 
 socket.on("create_cards", (data) => {
     window.location.href = "/lobby/cardCreation/" + data.room;
+});
+
+socket.on("game_started", (data) => {
+    window.location.href = "/lobby/game/" + data.room;
 });

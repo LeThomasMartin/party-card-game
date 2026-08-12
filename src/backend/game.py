@@ -15,6 +15,8 @@ def card_creation(data):
         emit("error", {"message": "Lobby not found"})
         return
 
+    lobby_data["state"] = "card_creation"
+
     if lobby_data["state"] != "card_creation":
         emit("error", {"message": "Game already started"})
         return
