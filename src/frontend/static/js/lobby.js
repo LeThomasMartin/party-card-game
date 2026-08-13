@@ -25,6 +25,10 @@ socket.on("update_players", (data) => {
     updateHostInfo(data.host);
 });
 
+socket.on("store_player_id", (data) => {
+    sessionStorage.setItem("playerId", data.player_id);
+});
+
 function updateHostInfo(hostName) {
     const hostInfo = document.getElementById("host-info");
     hostInfo.textContent = "Hôte : " + (hostName || "Aucun hôte");

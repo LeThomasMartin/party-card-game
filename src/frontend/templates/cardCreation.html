@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animations.css') }}">
 </head>
 <body data-lobby-id="{{ lobby_id }}">
-    <h1>The crazy party game - Création de cartes</h1>
     <main>
         <section class="card-creation-screen">
             <div class="page-header">
@@ -25,16 +24,23 @@
                 <div class="card-creation-card category-boisson" id="card-editor">
                     <div class="card-category card-category--large" id="card-category-label">BOISSON</div>
                     <div class="card-editor-frame">
-                        <textarea id="card-text-input" class="card-editor-textarea" rows="8" placeholder="Écris ici le texte de ta carte..."></textarea>
+                        <textarea id="card-text-input" class="card-editor-textarea" rows="8" maxlength="248" placeholder="Écris ici le texte de ta carte..."></textarea>
                     </div>
                 </div>
 
-                <button type="button" id="next-card-button" class="primary-btn">Suivant</button>
+                <div class="card-creation-actions">
+                    <button type="button" id="prev-card-button" class="secondary-btn" disabled>
+                        Précédent
+                    </button>
+                    <button type="button" id="next-card-button" class="primary-btn">Suivant</button>
+                </div>
+
                 <p class="completion-message" id="completion-message" aria-live="polite"></p>
             </div>
         </section>
     </main>
-
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/server.js') }}"></script>
     <script src="{{ url_for('static', filename='js/card-creation.js') }}"></script>
 </body>
 </html>

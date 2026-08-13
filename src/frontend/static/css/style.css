@@ -674,6 +674,24 @@ button#increase-players:active {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
+.card-creation-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-creation-actions button {
+    min-width: 140px;
+    padding: 12px 18px;
+    border-radius: 12px;
+}
+
+.card-creation-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .card-creation-status {
     display: flex;
     align-items: center;
@@ -727,6 +745,92 @@ button#increase-players:active {
 
 .card-creation-card.entered {
     animation: slideUp 0.35s ease;
+}
+
+.card-creation-card.submitted {
+    padding: 24px;
+    justify-content: flex-start;
+}
+
+.card-status-header {
+    color: var(--text-dark);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.card-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.player-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(15, 23, 42, 0.03);
+    color: var(--text-dark);
+}
+
+.player-status-row.done {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+
+.player-status-row.pending {
+    background: rgba(249, 115, 22, 0.12);
+    border-color: rgba(249, 115, 22, 0.25);
+}
+
+.player-status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.player-status-row.done .player-status-indicator {
+    background: var(--success-color);
+}
+
+.player-status-row.pending .player-status-indicator {
+    background: var(--warning-color);
+}
+
+.player-status-name {
+    flex: 1;
+    font-weight: 700;
+    text-align: left;
+}
+
+.player-status-tag {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: rgba(15, 23, 42, 0.08);
+}
+
+.player-status-row.done .player-status-tag {
+    background: rgba(16, 185, 129, 0.15);
+    color: #065f46;
+}
+
+.player-status-row.pending .player-status-tag {
+    background: rgba(249, 115, 22, 0.15);
+    color: #9a4d00;
 }
 
 .card-creation-card.category-boisson {
@@ -972,6 +1076,13 @@ button#increase-players:active {
     display: inline-block;
     position: relative;
     z-index: 1;
+}
+
+/* Ensure the large category label used in the card-creation panel
+   remains dark and visible when the card background is white. */
+.card-category.card-category--large {
+    color: var(--text-dark);
+    background: rgba(15, 23, 42, 0.06);
 }
 
 .card-text {
