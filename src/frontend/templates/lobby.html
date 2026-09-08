@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby - The crazy party game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+
+<body>
+    <header class="page-header">
+        <h1>The crazy party game</h1>
+        <h4>Waiting room</h4>
+    </header>
+    <main>
+        <div class="lobby-container lobby-card">
+            <!-- Lobby Info -->
+            <div class="lobby-info">
+                <div class="lobby-id-display">
+                    <label>Lobby ID: {{ lobby_id }}</label>
+                </div>
+                <div class="host-indicator" id="host-indicator" style="display: none;">
+                    <span class="badge">Host</span>
+                </div>
+            </div>
+
+            <!-- Players List -->
+            <div class="players-section">
+                <h2>Players in Lobby</h2>
+                <label id="host-info">Host : </label>
+                <div class="players-list" id="players">
+                    <label>Joueurs :</label>
+                    <ul id="players-list" class="players-grid"></ul>
+                </div>
+            </div>
+
+            <div class="lobby-actions" id="lobby-actions">
+                <button type="button" id="start-game-btn" class="primary-btn" style="display: none;">
+                    Démarrer la partie
+                </button>
+
+                <div class="card-creation-container" style="display: none;" id="card-creation-container">
+                    <label for="card-creation-toggle">
+                        Activer la création personnalisée de cartes
+                    </label>
+                    <input type="checkbox" id="card-creation-toggle">
+                </div>
+
+                <button type="button" id="leave-lobby-btn" class="secondary-btn">
+                    Quitter le lobby
+                </button>
+            </div>
+
+            <div class="waiting-message" id="waiting-message">
+                <p>En attente du départ de la partie par l'hôte...</p>
+            </div>
+
+            <div class="notification-toast" id="lobby-notification" aria-live="polite"></div>
+        </div>
+    </main>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/server.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lobby.js') }}"></script>
+</body>
+</html>

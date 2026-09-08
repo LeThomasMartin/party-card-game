@@ -57,7 +57,7 @@ const WHEEL_CONFIG = {
 
   // Audio
   audio: {
-    tickSoundPath: "sounds/thick.mp3",
+    tickSoundPath: "/static/sounds/thick.mp3",
     tickVolume: 0.3,           // Volume for tick sounds (0-1)
     speedThreshold: 0.01,      // Min wheel speed to trigger tick (radians/frame)
     preloadOnInit: true,       // Load sound file on page load

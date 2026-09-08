@@ -1,0 +1,50 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The crazy party game - Game</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animations.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/wheel.css') }}">
+</head>
+<body>
+    <h1>The crazy party game</h1>
+    <main>
+        <div class="game-container">
+            <div class="players-info" id="players-info"></div>
+
+            <div class="card-display">
+                <p>Clique sur "Prochaine Carte"</p>
+            </div>
+
+            <div class="game-controls">
+                <button id="draw-button">Prochaine Carte</button>
+                <button id="loser-button">Roulette des faibles</button>
+                <button class="secondary" id="acceuil-button">Accueil</button>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="wheelModal" class="wheel-modal hidden">
+        <div class="wheel-modal-content">
+            <h2>Roulette</h2>
+
+            <div class="wheel-wrap">
+                <div class="pointer"></div>
+                <canvas id="wheel" width="900" height="900"></canvas>
+                <button id="spinBtn" class="spin-center" type="button">SPIN</button>
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/server.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wheel-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sound-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wheel.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/loser-wheel.js') }}"></script>
+</body>
+</html>
