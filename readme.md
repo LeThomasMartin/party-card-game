@@ -1,134 +1,158 @@
-# Party-Card-Game 🎉
+﻿# Party Card Game 🎉
 
-## Description
+Jeu de cartes multijoueur pour soirée, conçu pour jouer à plusieurs sur un même lobby, avec création de cartes, rotation des joueurs et roulette des perdants.
 
-**Party-Card-Game** est un jeu de cartes amusant et interactif conçu pour les soirées en groupe. Le jeu propose une variété de défis, de questions et d'activités au sein de quatre catégories principales. Complètement développé en HTML, CSS et JavaScript, il fonctionne directement dans le navigateur sans dépendances externes.
+## Aperçu
 
-## 🎮 Comment Jouer
+Ce projet est une application web de type party game en Python avec Flask et Socket.IO. Les joueurs créent un lobby, s'inscrivent avec un pseudo, puis participent à une partie où l'hôte lance la session et chaque tour fait avancer le jeu.
 
-### Étape 1 : Configuration du Jeu
-1. Lancez le fichier `index.html` dans votre navigateur
-2. Entrez le **nombre de joueurs** (1-10) en utilisant les boutons + et −
-3. Remplissez les **noms des joueurs** avec des noms amusants et créatifs
-4. Cliquez sur **"Start Playing"** pour commencer
+Le jeu propose :
+- la création d'un lobby partagé
+- l'ajout de joueurs en temps réel
+- la personnalisation des cartes par les participants
+- le tirage aléatoire d'une carte dans le deck
+- la gestion du tour actif entre les joueurs
+- une roulette finale pour "le plus faible" ou le perdant du moment
 
-### Étape 2 : Jeu en Action
-1. Lors de chaque tour, cliquez sur **"Prochaine Carte"** pour tirer une nouvelle carte
-2. Lisez le défi ou la question à voix haute et complétez-le selon les instructions
-3. La prochaine personne tire une nouvelle carte
-4. Continuez jusqu'à ce que vous ayez épuisé le deck (environ 75 cartes)
-5. Cliquez sur **"Accueil"** pour revenir au menu et recommencer
+## Fonctionnalités principales
 
-## 📚 Catégories de Cartes
+- Lobby généré automatiquement avec un code unique
+- Rejoindre un lobby en utilisant un pseudo
+- Départ de partie par l'hôte du lobby
+- Création collective de cartes avant le lancement
+- Deck partagé et mélangé pendant la partie
+- Rotation du joueur actif à chaque tour
+- Affichage des cartes en direct sur la même salle
+- Roulette de punition / élimination
+- Interface web en HTML, CSS et JavaScript
 
-### 🍺 Boisson
-- Défis impliquant de boire de l'alcool
-- Ex: "Les gars boivent", "Drinking race !", "Gorgée générale !"
+## Stack technique
 
-### 💬 Parler
-- Questions provocatrices et amusantes
-- Ex: "Quel est ton plus grand fantasme ?", "Raconte ta pire anecdote de sexe"
+- Python
+- Flask
+- Flask-SocketIO
+- JavaScript
+- HTML / CSS
 
-### 🏋️ Défi
-- Défis physiques et personnels
-- Ex: "Enlève un bout de vêtement", "Fait 15 push-up", "Appel le dernier numéro..."
+## Structure du projet
 
-### 🎲 Divers
-- Activités de groupe et jeux de vote
-- Ex: "Votons ! La personne qui déçoit le plus ses parents boit", "Tout le monde change de place"
-
-## 📁 Structure du Projet
-
-```
+```text
 party-card-game/
-├── index.html              # Page d'accueil - Configuration du jeu
-├── game.html               # Page de jeu - Affichage des cartes
-├── readme.md               # Ce fichier
-├── css/
-│   ├── style.css           # Styles principaux
-│   └── animations.css      # Animations CSS détaillées
-└── js/
-    ├── home.js             # Logique de l'accueil (entrée des joueurs)
-    ├── game.js             # Logique du jeu (pioche des cartes)
-    └── utils.js            # Fonctions utilitaires (localStorage)
+├── main.py                         # Point d'entrée de l'application
+├── readme.md                      # Documentation du projet
+├── src/
+│   ├── backend/
+│   │   ├── api.py                 # Routes API de création et gestion des lobbies
+│   │   ├── app.py                 # Application Flask + Socket.IO
+│   │   ├── data.py                # Cartes de base du jeu
+│   │   ├── game.py                # Événements de jeu et logique du tour
+│   │   ├── lobby.py               # Gestion des lobbies en mémoire
+│   │   └── requirement.txt        # Dépendances Python
+│   └── frontend/
+│       ├── static/
+│       │   ├── css/
+│       │   ├── js/
+│       │   └── sounds/
+│       └── templates/
+│           ├── cardCreation.html
+│           ├── game.html
+│           ├── index.html
+│           └── lobby.html
+└── .venv/                         # Environnement virtuel (si créé localement)
 ```
 
-## 🛠️ Technologies Utilisées
+## Prérequis
 
-- **HTML5** - Structure des pages
-- **CSS3** - Mise en page et animations
-- **JavaScript** - Logique du jeu et interactivité
-- **LocalStorage** - Persistance des noms de joueurs
+- Python 3.9+
+- Pip
+- Navigateur web moderne
 
-## 🚀 Installation & Utilisation
+## Installation
 
-### Méthode 1 : Ouvrir directement
-1. Téléchargez tous les fichiers du projet
-2. Ouvrez le fichier `index.html` dans n'importe quel navigateur
-3. C'est tout ! Aucune installation requise
+1. Ouvrez un terminal à la racine du projet.
+2. Créez un environnement virtuel :
 
-### Méthode 2 : Serveur Local
 ```bash
-# Avec Python 3
-python -m http.server 8000
-
-# Avec Node.js / http-server
-npx http-server
-
-# Puis accédez à http://localhost:8000 dans votre navigateur
+python -m venv .venv
 ```
 
-## 🎯 Fonctionnalités Principales
+3. Activez l'environnement virtuel :
 
-✅ Jeu de cartes avec ~75 défis différents  
-✅ Système de gestion simplifié des joueurs  
-✅ Interface responsive et conviviale  
-✅ Pioche sans répétition pendant une partie  
-✅ Sauvegarde des noms des joueurs en localStorage  
-✅ Boutons d'ajustement du nombre de joueurs (+/−)  
-✅ Système de validation des noms (pas de vides, pas de doublons)  
-✅ Animations CSS fluides  
-
-## ⚙️ Configurations Possibles
-
-### Ajouter de nouvelles cartes
-Modifiez le tableau `DECK` dans `js/game.js` :
-```javascript
-const DECK = [
-    { text: "Mon nouveau défi", category: "boisson" },
-    // ... autres cartes
-];
+Sous Windows :
+```bash
+.venv\Scripts\activate
 ```
 
-Les catégories disponibles sont : `boisson`, `parler`, `défi`, `divers`
-
-### Modifier le nombre de joueurs maximum
-Dans `index.html`, changez l'attribut `max` :
-```html
-<input type="number" id="amountplayers" max="15"> <!-- Modifier 10 → 15 -->
+Sous macOS / Linux :
+```bash
+source .venv/bin/activate
 ```
 
-## 📝 Notes
+4. Installez les dépendances :
 
-- Le jeu est conçu pour des adultes avec des questions et défis explicites
-- Tous les défis sont en français
-- Les noms des joueurs sont stockés localement et supprimés lorsqu'on quitte le jeu
-- Le deck se réinitialise automatiquement, vous proposant de rebattre les cartes
+```bash
+pip install -r src/backend/requirement.txt flask-socketio
+```
 
-## 🐛 Dépannage
+## Lancer le projet
 
-**Les noms ne s'enregistrent pas ?**
-- Vérifiez que JavaScript est activé dans votre navigateur
-- Vérifiez que localStorage n'est pas désactivé
+Depuis la racine du projet :
 
-**Les cartes s'affichent mal ?**
-- Assurez-vous que tous les fichiers CSS sont correctement chargés
-- Rafraîchissez la page (Ctrl+Shift+R)
+```bash
+python main.py
+```
 
-## 📄 Licence
+Ensuite ouvrez votre navigateur sur :
 
-Ce projet est libre d'utilisation à titre personnel.
+```text
+http://localhost:5000
+```
+
+## Déroulement d'une partie
+
+1. Un joueur crée un lobby depuis la page d'accueil.
+2. Le serveur génère un code de lobby.
+3. Les autres joueurs rejoignent avec leur pseudo et ce code.
+4. L'hôte démarre la partie.
+5. Les joueurs peuvent créer ou personnaliser des cartes.
+6. Une fois la création terminée, la partie démarre.
+7. Le joueur actif pioche une carte.
+8. La carte est lue à voix haute et le jeu continue au tour suivant.
+9. La roulette des faibles peut être déclenchée à tout moment pour l'épreuve finale.
+
+## Cartes et catégories
+
+Les cartes sont définies dans [src/backend/data.py](src/backend/data.py). Les catégories principales sont :
+
+- boisson
+- parler
+- défi
+- divers
+
+Les cartes peuvent contenir des placeholders comme `[player]` et `[random]`, utilisés dynamiquement pendant la partie.
+
+## Notes importantes
+
+- Le projet est conçu pour un usage festif et adulte.
+- Les messages et cartes peuvent contenir du contenu explicite.
+- Les lobbies sont stockés en mémoire côté serveur, donc ils sont perdus si le serveur est arrêté.
+- La logique réelle du jeu est gérée via des événements Socket.IO, pas uniquement via le front-end.
+
+## Développement
+
+Si vous souhaitez ajouter de nouvelles cartes, modifiez le tableau `deck` dans [src/backend/data.py](src/backend/data.py).
+
+Si vous souhaitez modifier le comportement du jeu, les fichiers principaux à consulter sont :
+
+- [src/backend/game.py](src/backend/game.py)
+- [src/backend/lobby.py](src/backend/lobby.py)
+- [src/backend/api.py](src/backend/api.py)
+- [src/frontend/static/js](src/frontend/static/js)
+
+## Licence
+
+Ce projet est fourni à titre personnel et pour usage ludique. Aucune licence commerciale n'est définie dans le dépôt.
 
 ---
 
-**Amusez-vous bien ! 🎉🍾**
+Amusez-vous bien et que la soirée soit mémorable ! 🍻
