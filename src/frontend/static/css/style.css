@@ -23,6 +23,11 @@
     --success-color: #10b981;
     --warning-color: #f97316;
     --danger-color: #ef4444;
+    --color-boisson: #ef4444;
+    --color-divers: #a855f7;
+    --color-defi: #0ea5e9;
+    --color-parler: #10b981;
+    --color-roulette: #111827;
     
     --bg-dark: #0f172a;
     --bg-light: #f8fafc;
@@ -578,8 +583,390 @@ button#increase-players:active {
 .card-creation-container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+#card-creation-container label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    text-align: center;
+}
+
+#card-creation-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    width: 52px;
+    height: 30px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.45);
+}
+
+#card-creation-toggle::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+    transition: transform 0.25s ease;
+}
+
+#card-creation-toggle:checked {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+#card-creation-toggle:checked::before {
+    transform: translateX(22px);
+}
+
+#card-creation-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35), inset 0 2px 6px rgba(15, 23, 42, 0.45);
+}
+
+
+
+.card-creation-screen {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.creation-subtitle {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1rem;
+    margin-top: 12px;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-creation-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: var(--border-radius-lg);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.card-creation-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-creation-actions button {
+    min-width: 140px;
+    padding: 12px 18px;
+    border-radius: 12px;
+}
+
+.card-creation-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.card-creation-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.step-label {
+    font-size: 0.92rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 700;
+}
+
+.step-dots {
+    display: flex;
     gap: 8px;
 }
+
+.step-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0.35;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.step-dot.active {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.card-creation-card {
+    position: relative;
+    border-radius: 28px;
+    padding: 22px;
+    width: 100%;
+    min-height: 420px;
+    border: 12px solid var(--color-boisson);
+    background: #ffffff;
+    box-shadow: 0 26px 60px rgba(15, 23, 42, 0.22);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card-creation-card.entered {
+    animation: slideUp 0.35s ease;
+}
+
+.card-creation-card.submitted {
+    padding: 24px;
+    justify-content: flex-start;
+}
+
+.card-status-header {
+    color: var(--text-dark);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.card-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.player-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(15, 23, 42, 0.03);
+    color: var(--text-dark);
+}
+
+.player-status-row.done {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+
+.player-status-row.pending {
+    background: rgba(249, 115, 22, 0.12);
+    border-color: rgba(249, 115, 22, 0.25);
+}
+
+.player-status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.player-status-row.done .player-status-indicator {
+    background: var(--success-color);
+}
+
+.player-status-row.pending .player-status-indicator {
+    background: var(--warning-color);
+}
+
+.player-status-name {
+    flex: 1;
+    font-weight: 700;
+    text-align: left;
+}
+
+.player-status-tag {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: rgba(15, 23, 42, 0.08);
+}
+
+.player-status-row.done .player-status-tag {
+    background: rgba(16, 185, 129, 0.15);
+    color: #065f46;
+}
+
+.player-status-row.pending .player-status-tag {
+    background: rgba(249, 115, 22, 0.15);
+    color: #9a4d00;
+}
+
+.card-creation-card.category-boisson {
+    border-color: var(--color-boisson);
+}
+
+.card-creation-card.category-divers {
+    border-color: var(--color-divers);
+}
+
+.card-creation-card.category-défi {
+    border-color: var(--color-defi);
+}
+
+.card-creation-card.category-parler {
+    border-color: var(--color-parler);
+}
+
+.card-creation-card.category-roulette {
+    border-color: var(--color-roulette);
+}
+
+.card-category--large {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.06);
+    color: var(--text-dark);
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.card-editor-frame {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+.card-editor-textarea {
+    width: 100%;
+    min-height: 100%;
+    resize: none;
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    outline: none;
+}
+
+.card-editor-textarea::placeholder {
+    color: rgba(15, 23, 42, 0.5);
+    font-weight: 400;
+}
+
+#next-card-button {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1.05rem;
+    border-radius: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+#next-card-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.creation-note,
+.completion-message {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.5;
+    text-align: center;
+}
+
+.creation-note {
+    margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+    .card-creation-panel {
+        padding: 18px;
+    }
+
+    .card-creation-card {
+        min-height: 360px;
+        padding: 18px;
+    }
+
+    .card-editor-textarea {
+        font-size: 1rem;
+    }
+
+    .card-category--large {
+        font-size: 0.95rem;
+        padding: 10px 16px;
+    }
+
+    .step-label {
+        width: 100%;
+        text-align: center;
+    }
+
+    .step-dots {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-creation-card {
+        min-height: 320px;
+        padding: 16px;
+        border-width: 10px;
+    }
+
+    .card-editor-textarea {
+        font-size: 0.98rem;
+    }
+
+    #next-card-button {
+        padding: 16px 20px;
+    }
+}
+
 
 /* ===========================
    GAME CONTAINER
@@ -689,6 +1076,13 @@ button#increase-players:active {
     display: inline-block;
     position: relative;
     z-index: 1;
+}
+
+/* Ensure the large category label used in the card-creation panel
+   remains dark and visible when the card background is white. */
+.card-category.card-category--large {
+    color: var(--text-dark);
+    background: rgba(15, 23, 42, 0.06);
 }
 
 .card-text {

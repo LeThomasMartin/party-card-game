@@ -33,11 +33,31 @@ def get_host(room):
 
 @app.route("/api/lobby/create")
 def create_lobby():
+
     room = lobby.generate_room_id()
+    while room in lobby.lobbies:
+        room = lobby.generate_room_id()
+
     lobby.lobbies[room] = {
         "host": None,
-        "players": {},
-        "deck": deck, # Deck par défaut pour l'instant, peut être personnalisé plus tard
+
+        "players": {
+            # player_id: nom
+            # "abc123": "Thomas",
+            # "def456": "Alex"
+        },
+
+        "connections": {
+            # sid: player_id
+            # "RVqspr...": "abc123",
+            # "ECfgyw...": "def456"
+        },
+
+        "card_creation_done": {
+            # player_id: True/False
+        },
+
+        "deck": deck,
         "active_player": None,
         "turn": 0,
         "state": "waiting"

@@ -40,7 +40,7 @@ def card_creation(lobby_id):
         return "Lobby not found", 404
 
     return render_template(
-        "card_creation.html",
+        "cardCreation.html",
         lobby_id=lobby_id,
     )
 

@@ -5,6 +5,8 @@ from flask import request
 from src.backend import lobby
 import random
 
+
+# =====Card creation events======
 @socketio.on("card_creation")
 def card_creation(data):
     room = data.get("room")
@@ -15,11 +17,55 @@ def card_creation(data):
         emit("error", {"message": "Lobby not found"})
         return
 
+    lobby_data["state"] = "card_creation"
+    lobby_data["deck"] = []  # Reset the deck for new card creation
+
     if lobby_data["state"] != "card_creation":
         emit("error", {"message": "Game already started"})
         return
 
     emit("create_cards", {"room": room}, room=room)
+
+@socketio.on("submit_cards")
+def submit_cards(data):
+    room = data.get("room")
+    player_id = data.get("player_id")
+    cards = data.get("cards")
+    join_room(room)
+    lobby_data = lobby.lobbies.get(room)
+    sid = request.sid
+
+    if not lobby_data:
+        emit("error", {"message": "Lobby not found"})
+        return
+
+    if lobby_data["state"] != "card_creation":
+        emit("error", {"message": "Invalid game state"})
+        return
+    if sid not in lobby_data["connections"]:
+        update_connexion_info(sid, player_id, room)
+
+    lobby_data["deck"] += cards
+    lobby_data["card_creation_done"][player_id] = True
+
+
+    players_done = [
+        lobby_data["players"][player_id]
+        for player_id, done in lobby_data["card_creation_done"].items()
+        if done
+    ]
+
+    players_not_done = [
+        lobby_data["players"][player_id]
+        for player_id, done in lobby_data["card_creation_done"].items()
+        if not done
+    ]
+
+    if len(players_not_done) == 0:
+        lobby_data["state"] = "waiting"
+        start_game(data)  # Start the game automatically when all players are done
+
+    emit("cards_submitted", {"room": room, "players_done": players_done, "players_not_done": players_not_done}, room=room)
 
 @socketio.on("start_game")
 def start_game(data):
@@ -126,3 +172,13 @@ def reshuffle_deck(data):
     lobby_data["deck"] = deck
 
     emit("reshuffled_deck", {"room": room}, room=room)
+
+def update_connexion_info(sid, player_id, room):
+    lobby_data = lobby.lobbies.get(room)
+    if not lobby_data:
+        emit("error", {"message": "Lobby not found"})
+        return
+
+    # Update the connections mapping
+    lobby_data["connections"][sid] = player_id
+    

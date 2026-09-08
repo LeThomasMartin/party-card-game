@@ -33,13 +33,21 @@ def join_lobby(data):
         emit("error", {"message": "Player name already taken"})
         return
 
-    sid = request.sid
-    lobby["players"][sid] = player_name
+    player_id = generate_player_id()  # Generate a unique player ID
     join_room(room)
-    
+
+    lobby["players"][player_id] = player_name
+    lobby["connections"][request.sid] = player_id
+    lobby["card_creation_done"][player_id] = False
+
     if not lobby["host"]:
-        lobby["host"] = sid
-    print(f"Current players in lobby {room}: {list(lobby['players'].values())}")  # Debug log
+        lobby["host"] = player_id
+
+
+    emit( "store_player_id", {
+    "player_id": player_id
+    }, to=request.sid )
+
     emit("update_players", {
     "room": room,
     "host": lobby["players"][lobby["host"]],
@@ -56,15 +64,21 @@ def leave_lobby(data):
         emit("error", {"message": "Lobby not found"})
         return
 
-    if sid in lobby["players"].keys():
-        del lobby["players"][sid]
+    player_id = lobby["connections"].get(sid)
 
-    if sid == lobby["host"]:
+    if player_id in lobby["players"]:
+        del lobby["players"][player_id]  # Remove the player from the players dictionary
+
+    if player_id == lobby["host"]:
         lobby["host"] = next(iter(lobby["players"]), None)
 
     leave_room(room)
 
     host_name = lobby["players"].get(lobby["host"]) if lobby["host"] else None
+
+    lobby["players"].pop(player_id, None)  # Remove the player from the players dictionary
+    lobby["card_creation_done"].pop(player_id, None)  # Remove the player's card creation status
+    lobby["connections"].pop(sid, None)  # Remove the player's connection
 
     emit("update_players", {
         "room": room,
@@ -78,13 +92,18 @@ def on_disconnect(sid=None):
         sid = request.sid
 
     for room, lobby in lobbies.items():
-        if sid not in lobby["players"]:
+        player_id = lobby["connections"].get(sid)
+        if not player_id or player_id not in lobby["players"]:
             continue
-        del lobby["players"][sid]
-        if sid == lobby["host"]:
+        del lobby["players"][player_id]
+        if player_id == lobby["host"]:
             lobby["host"] = next(iter(lobby["players"]), None)
 
         host_name = lobby["players"].get(lobby["host"]) if lobby["host"] else None
+        
+        lobby["players"].pop(player_id, None)  # Remove the player from the players dictionary
+        lobby["card_creation_done"].pop(player_id, None)  # Remove the player's card creation status
+        lobby["connections"].pop(sid, None)  # Remove the player's connection
 
         emit("update_players", {
             "room": room,
@@ -94,3 +113,6 @@ def on_disconnect(sid=None):
 
 def generate_room_id():
     return ''.join(str(random.randint(0, 9)) for _ in range(5))
+
+def generate_player_id():
+    return ''.join(str(random.randint(0, 9)) for _ in range(10))

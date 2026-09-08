@@ -1,4 +1,7 @@
 let drawButton = document.getElementById("draw-button");
+let acceuilButton = document.getElementById("acceuil-button");
+acceuilButton.hidden = true;
+acceuilButton.disabled = true;
 let waitingForWheelClick = false;
 let drawButtonMode = "draw"; // Modes: "draw", "wheel", "endgame"
 let wheelEngine = null;
@@ -22,6 +25,10 @@ drawButton.addEventListener("click", async () => {
     }
 });
 
+acceuilButton.addEventListener("click", () => {
+    window.location.href = "/lobby/" + room;
+});
+
 // Logique de la page du jeu
 document.addEventListener("DOMContentLoaded", () => {
     socket.emit("init_game", {"room": room});
@@ -37,6 +44,8 @@ socket.on("game_initialized", (data) => {
 
 
     hideWheel();
+    acceuilButton.hidden = true;
+    acceuilButton.disabled = true;
     active_player_sid = data.active_player.sid;
     active_player_name = data.active_player.name;
     players_names = data.players_names;
@@ -175,6 +184,8 @@ function endGame() {
 
         drawButton.textContent = "Merci d'avoir joué !";
         drawButton.disabled = true;
+        acceuilButton.hidden = false;
+        acceuilButton.disabled = false;
         
         // Add endgame effect to body
         endGameEffect();
@@ -186,6 +197,12 @@ function endGame() {
         }, 2000);
 
 }
+
+
+socket.on("endgame", () => {
+    endGame();
+    acceuilButton.disabled = false;
+});
 
 function endGameEffect() {
 
@@ -292,6 +309,8 @@ function resetGame() {
         drawButton.textContent = "Prochaine Carte";
         drawButtonMode = "draw";
     }
+    acceuilButton.hidden = true;
+    acceuilButton.disabled = true;
     
     // Remove endgame overlay if it exists
     let existingOverlay = document.querySelector(".endgame-overlay");
@@ -300,10 +319,4 @@ function resetGame() {
     }
     
     socket.emit("reset_game", {"room": room});
-}
-
-function acceuil(){
-    clearAllPlayers();
-    turn = 0;
-    window.location.href = "/";
 }
